@@ -46,7 +46,6 @@ public partial class Destruction : Node
 
 	private async void Destroy(float explosionPower = 4f)
 	{
-		GD.Print("destroy");
 		DestructionUtils destructionUtils = new DestructionUtils();
 		Node3D shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, _shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay);
 		destructionUtils.QueueFree();

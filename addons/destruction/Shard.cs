@@ -17,7 +17,6 @@ public partial class Shard : RigidBody3D
 		}
 		else
 		{
-			GD.Print(FadeDelay);
 			await ToSignal(GetTree(), "physics_frame");
 			await ToSignal(GetTree(), "physics_frame");
 
@@ -39,7 +38,6 @@ public partial class Shard : RigidBody3D
 
 			if (FadeDelay > 0)
 			{
-				GD.Print("fade");
 				tween.TweenProperty(material, "albedo_color", new Color(1, 1, 1, 0), 2).
 					SetDelay(FadeDelay).
 					SetTrans(Tween.TransitionType.Expo).
