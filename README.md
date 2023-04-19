@@ -1,8 +1,6 @@
-# Godot Destruction Plugin
+# Godot Destruction Plugin CSharp
 
-Addon for creating a destruction effect for meshes based on a segmented version.
-
-https://user-images.githubusercontent.com/28286961/232236134-19868773-dd9f-402a-b21e-c8ecc36beb81.mp4
+Used in conjuction with shard meshes to easily create destructable objects.
 
 ## Usage
 
