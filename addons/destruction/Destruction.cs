@@ -44,12 +44,12 @@ public partial class Destruction : Node
 	}
 
 
-	private void Destroy(float explosionPower = 4f)
+	private async void Destroy(float explosionPower = 4f)
 	{
 		GD.Print("destroy");
-		//Node destructionUtils = DestructionUtils.New().As<Node>();
-
-		Node3D shards = DestructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, _shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay);//(Node3D)destructionUtils.Callv("CreateShards", new Godot.Collections.Array {Fragmented.Instantiate(), Shard, CollisionLayers, LayerMasks, ExplosionPower, FadeDelay, ShrinkDelay});
+		DestructionUtils destructionUtils = new DestructionUtils();
+		Node3D shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, _shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay);
+		destructionUtils.QueueFree();
 		_shardContainer.AddChild(shards);
 		Transform3D shardsGlobalTransform = shards.GlobalTransform;
 		shardsGlobalTransform.Origin = GetParent<Node3D>().GlobalTransform.Origin;
