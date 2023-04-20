@@ -63,5 +63,3 @@ grow_vertical = 0
 text = "Destroy"
 
 [connection signal="pressed" from="DestroyButton" to="." method="_on_destroy_button_pressed"]
-
-[editable path="DestructibleCube"]

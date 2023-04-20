@@ -29,8 +29,9 @@ public partial class Shard : RigidBody3D
 			}
 				
 			meshInstance.MaterialOverride = material;
-			material.Call("set_flag", "transparent", true);
-			material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
+			
+			//+material.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass; Use this instead for a clean fade instead of a noisy one.
+			material.Transparency = BaseMaterial3D.TransparencyEnum.AlphaHash;
 
 			Tween tween = CreateTween();
 			ApplyImpulse(RandomDirection() * ExplosionPower, -Position.Normalized());
