@@ -2,6 +2,7 @@ using System.Threading;
 using Godot;
 
 
+[Tool]
 public partial class Shard : RigidBody3D
 {
 	public float ShrinkDelay = -1;

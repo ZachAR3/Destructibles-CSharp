@@ -4,7 +4,3 @@
 
 [node name="Shard" type="RigidBody3D"]
 script = ExtResource("1_cyrij")
-
-[node name="CollisionShape" type="CollisionShape3D" parent="."]
-
-[node name="MeshInstance" type="MeshInstance3D" parent="."]

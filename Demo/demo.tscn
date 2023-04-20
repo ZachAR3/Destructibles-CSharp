@@ -61,10 +61,4 @@ text = "Destroy"
 
 [node name="DestructibleCube" parent="." instance=ExtResource("2_ytie2")]
 
-[node name="Destruction" parent="DestructibleCube" index="0"]
-_savePath = "res://ShardScenes/"
-_simplifyCollisionMesh = true
-
 [connection signal="pressed" from="DestroyButton" to="." method="_on_destroy_button_pressed"]
-
-[editable path="DestructibleCube"]

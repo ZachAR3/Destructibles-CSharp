@@ -2,7 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Godot;
 
-
+[Tool]
 public partial class DestructionUtils : Node
 {
 	public async Task<Node3D> CreateShards(Node3D obj, PackedScene shardScene, uint collisionLayers,
@@ -26,40 +26,30 @@ public partial class DestructionUtils : Node
 				}
 
 				MeshInstance3D shardMeshTyped = mesh;
-
-				PackedScene _shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
-				Node shard = _shard.Instantiate();
-				var shardScript = shard.GetScript();
-				//Shard newShard = new Shard();//shardScene.Instantiate<Shard>();
-				MeshInstance3D meshInstance = shard.GetNode<MeshInstance3D>("MeshInstance");
+				Shard newShard = shardScene.Instantiate<Shard>();
+				
+				MeshInstance3D meshInstance = new MeshInstance3D();
 				meshInstance.Mesh = shardMeshTyped.Mesh;
+				meshInstance.Name = "MeshInstance";
+				newShard.AddChild(meshInstance);
 
-				CollisionShape3D collisionShape = shard.GetNode<CollisionShape3D>("CollisionShape");
+				CollisionShape3D collisionShape = new CollisionShape3D();
 				collisionShape.Shape = meshInstance.Mesh.CreateConvexShape(cleanCollisionMesh, simplifyCollisionMesh);
+				collisionShape.Name = "CollisionShape";
+				newShard.AddChild(collisionShape);
 
-				// newShard.Position = shardMeshTyped.Position;
-				// newShard.CollisionLayer = collisionLayers;
-				// newShard.CollisionMask = collisionMasks;
-				// newShard.FadeDelay = fadeDelay;
-				// newShard.ExplosionPower = explosionPower;
-				// newShard.ShrinkDelay = shrinkDelay;
+				newShard.Position = shardMeshTyped.Position;
+				newShard.CollisionLayer = collisionLayers;
+				newShard.CollisionMask = collisionMasks;
+				newShard.FadeDelay = fadeDelay;
+				newShard.ExplosionPower = explosionPower;
+				newShard.ShrinkDelay = shrinkDelay;
 
-				RigidBody3D tempShard = shard as RigidBody3D;
-				;
-				tempShard.Position = shardMeshTyped.Position;
-				tempShard.CollisionLayer = collisionLayers;
-				tempShard.CollisionMask = collisionMasks;
-				tempShard.Set("fadeDelay", fadeDelay);
-				tempShard.Set("explosionPower", explosionPower);
-				tempShard.Set("shrinkDelay", shrinkDelay);
-
-
-				shards.AddChild(tempShard);
+				shards.AddChild(newShard);
 			}
 
 			if (saveToScene)
 			{
-				GD.Print("save");
 				PackedScene savedShards = new PackedScene();
 				foreach (Node shard in shards.GetChildren())
 				{
@@ -67,7 +57,6 @@ public partial class DestructionUtils : Node
 					foreach (Node shardChild in shard.GetChildren())
 					{
 						shardChild.Owner = shards;
-						GD.Print(shardChild.Name);
 					}
 				}
 

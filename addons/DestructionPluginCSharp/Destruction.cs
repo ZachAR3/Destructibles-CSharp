@@ -54,7 +54,6 @@ public partial class Destruction : Node
 		{
 			if (value)
 			{
-				GD.Print("Generating shards");
 				_saveToScene = true;
 				Destroy();
 			}
@@ -67,33 +66,71 @@ public partial class Destruction : Node
 	
 	[Export()] private bool _simplifyCollisionMesh = false;
 
+	[Export()] private bool _preloadShards = true;
+
+	[Export()] private PackedScene _preGeneratedShards;
+
 	private bool _saveToScene;
+	private Node3D _shards;
 
 
 	public override void _Ready()
 	{
-		_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
 		_shardContainer = GetNode("../../");
+
+		if (_preGeneratedShards == null && _preloadShards)
+		{
+			_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
+		}
+		else if (_preloadShards)
+		{
+			_shards = _preGeneratedShards.Instantiate<Node3D>();
+		}
 	}
 
 
 	private async void Destroy(float explosionPower = 4f)
 	{
-		GD.Print("explode");
-		DestructionUtils destructionUtils = new DestructionUtils();
-		Node3D shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, 
-			_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _saveToScene, 
-			_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
-		destructionUtils.QueueFree();
-		if (_saveToScene)
+		if (_preGeneratedShards == null)
 		{
-			return;
+			if (!_preloadShards)
+			{
+				_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
+			}
+			DestructionUtils destructionUtils = new DestructionUtils();
+			_shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, 
+				_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _saveToScene, 
+				_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
+			destructionUtils.QueueFree();
+			if (_saveToScene)
+			{
+				return;
+			}
 		}
-		_shardContainer.AddChild(shards);
-		Transform3D shardsGlobalTransform = shards.GlobalTransform;
+		else
+		{
+			if (!_preloadShards)
+			{
+				_shards = _preGeneratedShards.Instantiate<Node3D>();
+			}
+			
+			foreach (Node shardNode in _shards.GetChildren())
+			{
+				Shard shard = shardNode as Shard;
+				
+				shard.CollisionLayer = _collisionLayers;
+				shard.CollisionMask = _layerMasks;
+				shard.FadeDelay = _fadeDelay;
+				shard.ExplosionPower = explosionPower;
+				shard.ShrinkDelay = _shrinkDelay;
+			}
+		}
+		
+		_shardContainer.AddChild(_shards);
+		Transform3D shardsGlobalTransform = _shards.GlobalTransform;
 		shardsGlobalTransform.Origin = GetParent<Node3D>().GlobalTransform.Origin;
-		shards.GlobalTransform = shardsGlobalTransform;
-		shards.TopLevel = true;
+		_shards.GlobalTransform = shardsGlobalTransform;
+		_shards.TopLevel = true;
 		GetParent().QueueFree();
 	}
 	
