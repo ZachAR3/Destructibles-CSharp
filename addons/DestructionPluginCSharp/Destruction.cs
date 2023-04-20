@@ -5,26 +5,34 @@ using Godot.Collections;
 using Godot.NativeInterop;
 using Array = Godot.Collections.Array;
 
+
 //[Tool]
 public partial class Destruction : Node
 {
-	[Export] private PackedScene _fragmented;
-	// {
-	// 	get => Fragmented;
-	// 	set => SetFragmented(value);
-	// }
+	[Export()]
+	private PackedScene _fragmented;
+
+	private PackedScene Fragmented
+	{
+		get => _fragmented;
+		set => SetFragmented(value);
+	}
 
 	[Export] private PackedScene _shard;
-	// {
-	// 	get => Fragmented;
-	// 	set => SetShard(value);
-	// }
-	//
+
+	private PackedScene Shard
+	{
+		get => _shard;
+		set => SetShard(value);
+	}
+	
 	[Export] private Node _shardContainer;
-	// {
-	// 	get => ShardContainer;
-	// 	set => SetShardContainer(value);
-	// }
+	
+	private Node ShardContainer
+	{
+		get => _shardContainer;
+		set => SetShardContainer(value);
+	}
 
 	[ExportGroup("Animation")] 
 	[Export] private float _fadeDelay = 2f;
@@ -39,7 +47,7 @@ public partial class Destruction : Node
 
 	public override void _Ready()
 	{
-		_shard = (PackedScene)GD.Load("res://addons/DestructionC#/shard.tscn");
+		_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
 		_shardContainer = GetNode("../../");
 	}
 

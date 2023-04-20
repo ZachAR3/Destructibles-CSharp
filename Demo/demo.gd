@@ -3,7 +3,7 @@ extends Node3D
 @onready var destruction = $DestructibleCube/Destruction
 @onready var destroy_button: Button = $DestroyButton
 
-var destructible_cube_scene := preload("res://destructible_cube.tscn")
+var destructible_cube_scene := preload("res://Demo/destructible_cube.tscn")
 
 func _on_destroy_button_pressed() -> void:
 	print_orphan_nodes()

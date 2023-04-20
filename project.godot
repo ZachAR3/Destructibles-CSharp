@@ -10,20 +10,15 @@ config_version=5
 
 [application]
 
-config/name="Destruction Addon C#"
-config/description="Addon for creating a destruction effect for meshes based on a segmented version."
-run/main_scene="res://demo.tscn"
-config/features=PackedStringArray("4.0", "GL Compatibility")
-config/icon="res://icon.png"
+config/name="DestructionPluginCSharp"
+run/main_scene="res://Demo/demo.tscn"
+config/features=PackedStringArray("4.0", "C#", "Forward Plus")
+config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="Destruction Addon"
+project/assembly_name="DestructionPluginCSharp"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/DestructionC#/plugin.cfg")
-
-[rendering]
-
-renderer/rendering_method.mobile="gl_compatibility"
+enabled=PackedStringArray("res://addons/DestructionPluginCSharp/plugin.cfg")

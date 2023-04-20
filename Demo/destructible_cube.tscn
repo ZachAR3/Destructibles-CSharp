@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://lvjbkkflsjsv"]
+
+[ext_resource type="Material" path="res://Demo/white.tres" id="1_pn1no"]
+[ext_resource type="Script" path="res://addons/DestructionPluginCSharp/Destruction.cs" id="2_b8bej"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_h5eed"]
+size = Vector3(2, 2, 2)
+
+[node name="DestructibleCube" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.638229, 0)
+material_override = ExtResource("1_pn1no")
+mesh = SubResource("BoxMesh_h5eed")
+
+[node name="Destruction" type="Node" parent="."]
+script = ExtResource("2_b8bej")

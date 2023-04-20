@@ -1,7 +1,6 @@
-using Godot;
-using System;
 using System.Threading;
-using System.Threading.Tasks;
+using Godot;
+
 
 public partial class Shard : RigidBody3D
 {

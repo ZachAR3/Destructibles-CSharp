@@ -2,10 +2,10 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
-/modules.xml
-/contentModel.xml
 /projectSettingsUpdater.xml
-/.idea.godot-destruction-plugin-compatibility-fixes.iml
+/.idea.DestructionPluginCSharp.iml
+/contentModel.xml
+/modules.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files

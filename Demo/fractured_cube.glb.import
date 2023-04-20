@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://celvn43a7xgcb"
-path="res://.godot/imported/fractured_cube.glb-adb4b49b26963de61d86982b04de9b32.scn"
+uid="uid://bypyd46uq2tha"
+path="res://.godot/imported/fractured_cube.glb-d9661fb1b001df67080fed0b9dbc4b9e.scn"
 
 [deps]
 
-source_file="res://fractured_cube.glb"
-dest_files=["res://.godot/imported/fractured_cube.glb-adb4b49b26963de61d86982b04de9b32.scn"]
+source_file="res://Demo/fractured_cube.glb"
+dest_files=["res://.godot/imported/fractured_cube.glb-d9661fb1b001df67080fed0b9dbc4b9e.scn"]
 
 [params]
 
@@ -28,12 +28,5 @@ animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
-_subresources={
-"materials": {
-"Material": {
-"use_external/enabled": true,
-"use_external/path": "res://white.tres"
-}
-}
-}
+_subresources={}
 gltf/embedded_image_handling=1

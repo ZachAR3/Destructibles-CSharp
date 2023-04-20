@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co3om28rgeos3"
-path="res://.godot/imported/destruction_icon.svg-c269c89bb8e5430f46fc2fdb36d2e469.ctex"
+uid="uid://bcik26k48vaq"
+path="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/DestructionC#/destruction_icon.svg"
-dest_files=["res://.godot/imported/destruction_icon.svg-c269c89bb8e5430f46fc2fdb36d2e469.ctex"]
+source_file="res://icon.svg"
+dest_files=["res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"]
 
 [params]
 

@@ -1,7 +1,6 @@
-using Godot;
-using System;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using Godot;
+
 
 public partial class DestructionUtils : Node
 {
@@ -15,19 +14,20 @@ public partial class DestructionUtils : Node
 		{
 			foreach (var shardMesh in obj.GetChildren())
 			{
-				if (shardMesh is not MeshInstance3D)
+				var mesh = shardMesh as MeshInstance3D;
+				if (mesh == null)
 				{
 					continue;
 				}
 
-				MeshInstance3D shardMeshTyped = shardMesh as MeshInstance3D;
+				MeshInstance3D shardMeshTyped = mesh;
 
 				Shard newShard = shardScene.Instantiate<Shard>();
 				MeshInstance3D meshInstance = newShard.GetNode<MeshInstance3D>("MeshInstance");
 				meshInstance.Mesh = shardMeshTyped.Mesh;
 
 				CollisionShape3D collisionShape = newShard.GetNode<CollisionShape3D>("CollisionShape");
-				collisionShape.Shape = meshInstance.Mesh.CreateConvexShape(true);
+				collisionShape.Shape = meshInstance.Mesh.CreateConvexShape();
 
 				newShard.Position = shardMeshTyped.Position;
 				newShard.CollisionLayer = collisionLayers;
@@ -41,7 +41,7 @@ public partial class DestructionUtils : Node
 			}
 			
 			obj.QueueFree();
-			});
+		});
 		
 		return shards;
 	}
