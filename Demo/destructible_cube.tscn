@@ -19,4 +19,3 @@ _fragmented = ExtResource("3_irduf")
 _shard = ExtResource("4_c8sxj")
 _shrinkDelay = -1.0
 _savePath = "res://"
-_simplifyCollisionMesh = true

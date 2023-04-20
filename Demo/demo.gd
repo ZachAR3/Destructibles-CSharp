@@ -6,7 +6,6 @@ extends Node3D
 var destructible_cube_scene := preload("res://Demo/destructible_cube.tscn")
 
 func _on_destroy_button_pressed() -> void:
-	print_orphan_nodes()
 	destruction.Destroy(5)
 	destroy_button.disabled = true
 	await get_tree().create_timer(1).timeout
