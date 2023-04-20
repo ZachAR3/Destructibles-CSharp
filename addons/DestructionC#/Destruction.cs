@@ -39,7 +39,7 @@ public partial class Destruction : Node
 
 	public override void _Ready()
 	{
-		_shard = (PackedScene)GD.Load("res://addons/destruction/shard.tscn");
+		_shard = (PackedScene)GD.Load("res://addons/DestructionC#/shard.tscn");
 		_shardContainer = GetNode("../../");
 	}
 

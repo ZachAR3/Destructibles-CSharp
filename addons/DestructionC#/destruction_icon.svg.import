@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://co3om28rgeos3"
-path="res://.godot/imported/destruction_icon.svg-716fc5b182e74f5a75cf299975d03542.ctex"
+path="res://.godot/imported/destruction_icon.svg-c269c89bb8e5430f46fc2fdb36d2e469.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/destruction/destruction_icon.svg"
-dest_files=["res://.godot/imported/destruction_icon.svg-716fc5b182e74f5a75cf299975d03542.ctex"]
+source_file="res://addons/DestructionC#/destruction_icon.svg"
+dest_files=["res://.godot/imported/destruction_icon.svg-c269c89bb8e5430f46fc2fdb36d2e469.ctex"]
 
 [params]
 

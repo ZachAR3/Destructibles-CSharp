@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cexof5tlc7l1i"]
+[gd_scene load_steps=6 format=3 uid="uid://cexof5tlc7l1i"]
 
 [ext_resource type="Material" uid="uid://b4ygu62iepx6e" path="res://white.tres" id="1_pn1no"]
-[ext_resource type="Script" path="res://addons/destruction/Destruction.cs" id="2_0v3fa"]
-[ext_resource type="PackedScene" uid="uid://dgin7e7ccao53" path="res://addons/destruction/shard.tscn" id="4_7n587"]
+[ext_resource type="Script" path="res://addons/DestructionC#/Destruction.cs" id="2_msec0"]
+[ext_resource type="PackedScene" uid="uid://celvn43a7xgcb" path="res://fractured_cube.glb" id="3_irduf"]
+[ext_resource type="PackedScene" uid="uid://b7mhdlho06mhc" path="res://addons/DestructionC#/shard.tscn" id="4_0nnx3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_h5eed"]
 size = Vector3(2, 2, 2)
@@ -13,8 +14,7 @@ material_override = ExtResource("1_pn1no")
 mesh = SubResource("BoxMesh_h5eed")
 
 [node name="Destruction" type="Node" parent="."]
-script = ExtResource("2_0v3fa")
-_fragmented = null
-_shard = ExtResource("4_7n587")
-_fadeDelay = -1.0
+script = ExtResource("2_msec0")
+_fragmented = ExtResource("3_irduf")
+_shard = ExtResource("4_0nnx3")
 _shrinkDelay = -1.0

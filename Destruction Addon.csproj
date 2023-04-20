@@ -4,4 +4,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>DestructionAddon</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="addons\destruction\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="addons\destruction\**" />
+  </ItemGroup>
 </Project>
