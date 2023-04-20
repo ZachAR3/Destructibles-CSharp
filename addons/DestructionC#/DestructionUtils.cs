@@ -36,6 +36,7 @@ public partial class DestructionUtils : Node
 				newShard.ExplosionPower = explosionPower;
 				newShard.ShrinkDelay = shrinkDelay;
 
+				
 				shards.AddChild(newShard);
 			}
 			
