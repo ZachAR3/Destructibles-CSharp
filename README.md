@@ -2,6 +2,8 @@
 
 Used in conjuction with shard meshes to easily create destructable objects.
 
+*Requries Godot Mono.*
+
 ## Usage
 
 1. Install the **Cell Fracture** addon in Blender, **join your mesh** and use **F3** to search for Cell Fracture. Set the Source Limit to how many RigidBodies you want in your game. (\~5 – 20)
