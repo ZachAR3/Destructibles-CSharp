@@ -2,7 +2,7 @@
 
 Used in conjuction with shard meshes to easily create destructable objects.
 
-*Requries Godot Mono.*
+*Requires Godot Mono.*
 
 ## Usage
 
