@@ -6,7 +6,7 @@ using Godot.NativeInterop;
 using Array = Godot.Collections.Array;
 
 
-//[Tool]
+[Tool]
 public partial class Destruction : Node
 {
 	[Export()]
@@ -44,6 +44,31 @@ public partial class Destruction : Node
 	[Export(PropertyHint.Layers2DPhysics)]
 	private uint _layerMasks = 1;
 
+	
+	[ExportGroup("Generation")]
+	[Export()]
+	public bool GenerateShards
+	{
+		get => false;
+		set
+		{
+			if (value)
+			{
+				GD.Print("Generating shards");
+				_saveToScene = true;
+				Destroy();
+			}
+		}
+	}
+
+	[Export()] private string _savePath = "res://shard";
+
+	[Export()] private bool _cleanCollisionMesh = true;
+	
+	[Export()] private bool _simplifyCollisionMesh = false;
+
+	private bool _saveToScene;
+
 
 	public override void _Ready()
 	{
@@ -54,9 +79,16 @@ public partial class Destruction : Node
 
 	private async void Destroy(float explosionPower = 4f)
 	{
+		GD.Print("explode");
 		DestructionUtils destructionUtils = new DestructionUtils();
-		Node3D shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, _shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay);
+		Node3D shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, 
+			_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _saveToScene, 
+			_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
 		destructionUtils.QueueFree();
+		if (_saveToScene)
+		{
+			return;
+		}
 		_shardContainer.AddChild(shards);
 		Transform3D shardsGlobalTransform = shards.GlobalTransform;
 		shardsGlobalTransform.Origin = GetParent<Node3D>().GlobalTransform.Origin;

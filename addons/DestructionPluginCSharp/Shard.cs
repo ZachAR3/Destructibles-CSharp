@@ -8,7 +8,16 @@ public partial class Shard : RigidBody3D
 	public float FadeDelay = -1;
 	public float ExplosionPower;
 
-	public override async void _Ready()
+	public override void _Ready()
+	{
+		if (!Engine.IsEditorHint())
+		{ 
+			Initialize();
+		}
+	}
+
+
+	public async void Initialize()
 	{
 		if (ShrinkDelay == -1f && FadeDelay == -1f)
 		{

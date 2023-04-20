@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://srgwfiygxv8u"]
 
 [ext_resource type="Script" path="res://Demo/demo.gd" id="1_xvv5r"]
-[ext_resource type="PackedScene" uid="uid://lvjbkkflsjsv" path="res://Demo/destructible_cube.tscn" id="2_1ot51"]
+[ext_resource type="PackedScene" uid="uid://lvjbkkflsjsv" path="res://Demo/destructible_cube.tscn" id="2_ytie2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_yig7p"]
 size = Vector3(20, 0.5, 20)
@@ -25,9 +25,6 @@ tonemap_mode = 2
 script = ExtResource("1_xvv5r")
 
 [node name="Shards" type="Node3D" parent="."]
-
-[node name="DestructibleCube" parent="." instance=ExtResource("2_1ot51")]
-editor_description = "The cube is replaced with a new instance once destroyed."
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.759737, 0)
@@ -62,4 +59,12 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Destroy"
 
+[node name="DestructibleCube" parent="." instance=ExtResource("2_ytie2")]
+
+[node name="Destruction" parent="DestructibleCube" index="0"]
+_savePath = "res://ShardScenes/"
+_simplifyCollisionMesh = true
+
 [connection signal="pressed" from="DestroyButton" to="." method="_on_destroy_button_pressed"]
+
+[editable path="DestructibleCube"]
