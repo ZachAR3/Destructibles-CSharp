@@ -13,7 +13,7 @@ public partial class DestructionUtils : Node
 	{
 		Node3D shards = new Node3D();
 		shards.Name = obj.Name + "Shards";
-		saveDirectory += obj.Name + ".tscn";
+		saveDirectory += obj.Name + "Shards" + ".tscn";
 
 		await Task.Run(() =>
 		{
