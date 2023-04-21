@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Godot.Collections;
 using Godot.NativeInterop;
@@ -9,15 +10,14 @@ using Array = Godot.Collections.Array;
 [Tool]
 public partial class Destruction : Node
 {
-	[Export()]
-	private PackedScene _fragmented;
+	[Export()] private PackedScene _fragmented;
 
 	private PackedScene Fragmented
 	{
 		get => _fragmented;
 		set => SetFragmented(value);
 	}
-
+	
 	[Export] private PackedScene _shard;
 
 	private PackedScene Shard
@@ -26,7 +26,8 @@ public partial class Destruction : Node
 		set => SetShard(value);
 	}
 	
-	[Export] private Node _shardContainer;
+	[Export] 
+	private Node _shardContainer;
 	
 	private Node ShardContainer
 	{
@@ -37,17 +38,15 @@ public partial class Destruction : Node
 	[ExportGroup("Animation")] 
 	[Export] private float _fadeDelay = 2f;
 	[Export] private float _shrinkDelay = 2f;
+	[Export] private bool _particleFade = true;
 
 	[ExportGroup("Collision")] 
-	[Export(PropertyHint.Layers2DPhysics)]
-	private uint _collisionLayers = 1;
-	[Export(PropertyHint.Layers2DPhysics)]
-	private uint _layerMasks = 1;
+	[Export(PropertyHint.Layers2DPhysics)] private uint _collisionLayers = 1;
+	[Export(PropertyHint.Layers2DPhysics)] private uint _layerMasks = 1;
 
 	
 	[ExportGroup("Generation")]
-	[Export()]
-	public bool GenerateShards
+	[Export()] public bool GenerateShards
 	{
 		get => false;
 		set
@@ -60,7 +59,7 @@ public partial class Destruction : Node
 		}
 	}
 
-	[Export()] private string _savePath = "res://shard";
+	[Export(PropertyHint.Dir)] private string _savePath = "res://shard";
 
 	[Export()] private bool _cleanCollisionMesh = true;
 	
@@ -76,8 +75,10 @@ public partial class Destruction : Node
 
 	public override void _Ready()
 	{
+		// Set shard container node
 		_shardContainer = GetNode("../../");
 
+		// If preloading shards is enabled instances the correct shards for either dynamic generated or pre-generated shards.
 		if (_preGeneratedShards == null && _preloadShards)
 		{
 			_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
@@ -89,19 +90,22 @@ public partial class Destruction : Node
 	}
 
 
+	// Destroy function to be called when destroying an object (Also used to handle pre-generation of shards)
 	private async void Destroy(float explosionPower = 4f)
 	{
+		// Checks if a pre-generated shard scene is given, if not generates the shards with the given options.
 		if (_preGeneratedShards == null)
 		{
+			// Checks if shards are preloaded, if not loads them
 			if (!_preloadShards)
 			{
 				_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
 			}
 			DestructionUtils destructionUtils = new DestructionUtils();
 			_shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, 
-				_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _saveToScene, 
+				_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _particleFade, _saveToScene, 
 				_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
-			destructionUtils.QueueFree();
+			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
 			{
 				return;
@@ -109,11 +113,13 @@ public partial class Destruction : Node
 		}
 		else
 		{
+			// Checks if shards are preloaded, if not loads them
 			if (!_preloadShards)
 			{
 				_shards = _preGeneratedShards.Instantiate<Node3D>();
 			}
 			
+			// Sets the variables on each shard that would otherwise be set when generating the shards dynamically.
 			foreach (Node shardNode in _shards.GetChildren())
 			{
 				Shard shard = shardNode as Shard;
@@ -123,38 +129,55 @@ public partial class Destruction : Node
 				shard.FadeDelay = _fadeDelay;
 				shard.ExplosionPower = explosionPower;
 				shard.ShrinkDelay = _shrinkDelay;
+				shard.ParticleFade = _particleFade;
 			}
 		}
 		
+		// Adds the shards scene as a child of the container
 		_shardContainer.AddChild(_shards);
 		Transform3D shardsGlobalTransform = _shards.GlobalTransform;
 		shardsGlobalTransform.Origin = GetParent<Node3D>().GlobalTransform.Origin;
 		_shards.GlobalTransform = shardsGlobalTransform;
 		_shards.TopLevel = true;
-		GetParent().QueueFree();
+		// Necessary to avoid orphan nodes
+		GetParent().QueueFree(); 
 	}
 	
 
+	// Sets the fragmented value to the one set in the editor, and checks for errors, if so issuing a warning
 	private void SetFragmented(PackedScene to)
 	{
 		_fragmented = to;
 		if (IsInsideTree())
 		{
-			GetTree().EmitSignal("node_configuration_warning_changed", this);
+			UpdateConfigurationWarnings();
 		}
 	}
 	
 
+	// Sets the Shard value to the one set in the editor, and checks for errors, if so issuing a warning
 	private void SetShard(PackedScene to)
 	{
 		_shard = to;
 		if (IsInsideTree())
 		{
-			GetTree().EmitSignal("node_configuration_warning_changed", this);
+			UpdateConfigurationWarnings();
 		}
 	}
 	
 	
+	// Sets the Shard Container value to the one set in the editor, and checks for errors, if so issuing a warning
+	private void SetShardContainer(Node to)
+	{
+		_shardContainer = to;
+		if (IsInsideTree())
+		{
+			UpdateConfigurationWarnings();
+		}
+	}
+	
+
+	// Run when an above function issues a warning, passes this warning on to the user.
 	public override string[] _GetConfigurationWarnings()
 	{
 		string[] warnings = {};
@@ -178,6 +201,7 @@ public partial class Destruction : Node
 	}
 
 
+	// Simple function to see if a parent of a given node is a curtain type.
 	static bool _hasParentOfType(Node node)
 	{
 		if (node.GetParent() == null)
@@ -192,12 +216,5 @@ public partial class Destruction : Node
 
 		return _hasParentOfType(node.GetParent());
 	}
-	private void SetShardContainer(Node to)
-	{
-		_shardContainer = to;
-		if (IsInsideTree())
-		{
-			GetTree().EmitSignal("node_configuration_warning_changed", this);
-		}
-	}
+
 }
