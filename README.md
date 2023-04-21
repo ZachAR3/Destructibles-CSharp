@@ -19,6 +19,7 @@ Under the generation tab there are various options which affect both pre-generat
 * `Preload shards` which as the name suggests loads the shard scene at ready instead of when the `Destroy` function is called.
 * `Simplify collision mesh` which at the cost of time and processing power simplifies the shard meshes collision shapes which can drastically improve performance in instances with large quantites of shards.
 * `Clean collision mesh` is reccomended to be enabled as it doesn't cause much of a performance impact and removes duplicate and interior vertices which aren't needed.
+* `ParticleFade` when enabled causes the fade affect to appear spotted such as particles or dust. When disabled uses a clean fade.
 
 
 ## Optimizations
