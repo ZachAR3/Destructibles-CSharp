@@ -1,10 +1,5 @@
 using Godot;
-using System;
-using System.ComponentModel;
 using System.Linq;
-using Godot.Collections;
-using Godot.NativeInterop;
-using Array = Godot.Collections.Array;
 
 
 [Tool]
