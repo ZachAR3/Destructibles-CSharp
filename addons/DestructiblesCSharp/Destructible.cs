@@ -8,7 +8,7 @@ using Array = Godot.Collections.Array;
 
 
 [Tool]
-public partial class Destruction : Node
+public partial class Destructible : Node
 {
 	[Export()] private PackedScene _fragmented;
 
@@ -18,7 +18,7 @@ public partial class Destruction : Node
 		set => SetFragmented(value);
 	}
 	
-	[Export] private PackedScene _shard;
+	[Export()] private PackedScene _shard;
 
 	private PackedScene Shard
 	{
@@ -81,7 +81,7 @@ public partial class Destruction : Node
 		// If preloading shards is enabled instances the correct shards for either dynamic generated or pre-generated shards.
 		if (_preGeneratedShards == null && _preloadShards)
 		{
-			_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
+			_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		}
 		else if (_preloadShards)
 		{
@@ -99,9 +99,9 @@ public partial class Destruction : Node
 			// Checks if shards are preloaded, if not loads them
 			if (!_preloadShards)
 			{
-				_shard = (PackedScene)GD.Load("res://addons/DestructionPluginCSharp/shard.tscn");
+				_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 			}
-			DestructionUtils destructionUtils = new DestructionUtils();
+			DestructibleUtils destructionUtils = new DestructibleUtils();
 			_shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, 
 				_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _particleFade, _saveToScene, 
 				_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);

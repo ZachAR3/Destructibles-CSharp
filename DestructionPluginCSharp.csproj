@@ -3,4 +3,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="addons\DestructionPluginCSharp\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="addons\DestructionPluginCSharp\**" />
+  </ItemGroup>
 </Project>

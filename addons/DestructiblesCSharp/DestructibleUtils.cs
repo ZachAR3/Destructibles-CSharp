@@ -5,7 +5,7 @@ using Godot;
 
 // Used to generate shards both dynamically and statically (for pre-generated use-cases)
 [Tool]
-public partial class DestructionUtils : Node
+public partial class DestructibleUtils : Node
 {
 	public async Task<Node3D> CreateShards(Node3D obj, PackedScene shardScene, uint collisionLayers,
 		uint collisionMasks,

@@ -10,9 +10,10 @@ config_version=5
 
 [application]
 
-config/name="DestructionPluginCSharp"
+config/name="DestructiblesCSharp"
+config/description="A simple Godot 4 plugin to handle the creation and use of destructible objects."
 run/main_scene="res://Demo/demo.tscn"
-config/features=PackedStringArray("4.0", "C#", "Forward Plus")
+config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.png"
 
 [dotnet]
@@ -21,4 +22,4 @@ project/assembly_name="DestructionPluginCSharp"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/DestructionPluginCSharp/plugin.cfg")
+enabled=PackedStringArray("res://addons/DestructiblesCSharp/plugin.cfg")

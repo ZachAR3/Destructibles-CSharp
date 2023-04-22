@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://lvjbkkflsjsv"]
 
 [ext_resource type="Material" uid="uid://d0q30ktnicuth" path="res://Demo/white.tres" id="1_pn1no"]
-[ext_resource type="Script" path="res://addons/DestructionPluginCSharp/Destruction.cs" id="2_b8bej"]
-[ext_resource type="PackedScene" uid="uid://bypyd46uq2tha" path="res://Demo/fractured_cube.glb" id="3_irduf"]
-[ext_resource type="PackedScene" uid="uid://btooam5ftlo5j" path="res://addons/DestructionPluginCSharp/shard.tscn" id="4_c8sxj"]
+[ext_resource type="Script" path="res://addons/DestructiblesCSharp/Destructible.cs" id="2_qgx7i"]
+[ext_resource type="PackedScene" uid="uid://bypyd46uq2tha" path="res://Demo/fractured_cube.glb" id="3_hrt8e"]
+[ext_resource type="PackedScene" path="res://addons/DestructiblesCSharp/shard.tscn" id="4_i0tpy"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_h5eed"]
 size = Vector3(2, 2, 2)
@@ -13,8 +13,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.638229, 0)
 material_override = ExtResource("1_pn1no")
 mesh = SubResource("BoxMesh_h5eed")
 
-[node name="Destruction" type="Node" parent="."]
-script = ExtResource("2_b8bej")
-_fragmented = ExtResource("3_irduf")
-_shard = ExtResource("4_c8sxj")
+[node name="Destructible" type="Node" parent="."]
+script = ExtResource("2_qgx7i")
+_fragmented = ExtResource("3_hrt8e")
+_shard = ExtResource("4_i0tpy")
 _savePath = "res://"

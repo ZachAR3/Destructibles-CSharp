@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://btooam5ftlo5j"]
-
-[ext_resource type="Script" path="res://addons/DestructionPluginCSharp/Shard.cs" id="1_cyrij"]
-
-[node name="Shard" type="RigidBody3D"]
-script = ExtResource("1_cyrij")
