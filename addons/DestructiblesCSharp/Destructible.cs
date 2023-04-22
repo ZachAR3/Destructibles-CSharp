@@ -13,7 +13,7 @@ public partial class Destructible : Node
 		set => SetFragmented(value);
 	}
 	
-	[Export()] private PackedScene _shard;
+	private PackedScene _shard;
 
 	private PackedScene Shard
 	{
@@ -66,6 +66,7 @@ public partial class Destructible : Node
 
 	private bool _saveToScene;
 	private Node3D _shards;
+	private Node3D _fragmentedInstance;
 
 
 	public override void _Ready()
@@ -73,10 +74,12 @@ public partial class Destructible : Node
 		// Set shard container node
 		_shardContainer = GetNode("../../");
 
+		
+		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		// If preloading shards is enabled instances the correct shards for either dynamic generated or pre-generated shards.
 		if (_preGeneratedShards == null && _preloadShards)
 		{
-			_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
+			_fragmentedInstance = _fragmented.Instantiate() as Node3D;
 		}
 		else if (_preloadShards)
 		{
@@ -94,10 +97,10 @@ public partial class Destructible : Node
 			// Checks if shards are preloaded, if not loads them
 			if (!_preloadShards)
 			{
-				_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
+				_fragmentedInstance = _fragmented.Instantiate() as Node3D;
 			}
 			DestructibleUtils destructionUtils = new DestructibleUtils();
-			_shards = await destructionUtils.CreateShards(_fragmented.Instantiate() as Node3D, 
+			_shards = await destructionUtils.CreateShards(_fragmentedInstance, 
 				_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _particleFade, _saveToScene, 
 				_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes

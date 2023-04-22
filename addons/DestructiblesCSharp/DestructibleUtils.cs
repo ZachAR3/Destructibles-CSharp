@@ -9,12 +9,19 @@ public partial class DestructibleUtils : Node
 	public async Task<Node3D> CreateShards(Node3D obj, PackedScene shardScene, uint collisionLayers,
 		uint collisionMasks,
 		float explosionPower, float fadeDelay, float shrinkDelay, bool particleFade, bool saveToScene,
-		string saveDirectory = "res://shards", bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
+		string saveDirectory = "res://", bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
 
 	{
 		// Creates new shards holder and sets the name to be that of the object + Shards
 		Node3D shards = new Node3D();
 		shards.Name = obj.Name + "Shards";
+		
+	
+		// Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
+		if (!saveDirectory.EndsWith("/"))
+		{
+			saveDirectory += "/";
+		}
 		
 		// Sets the save directory to be the given director + Shards.tscn
 		saveDirectory += obj.Name + "Shards.tscn";
