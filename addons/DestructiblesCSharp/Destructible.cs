@@ -87,6 +87,11 @@ public partial class Destructible : Node
 		// If preloading shards is enabled instances the correct shards for either dynamic generated or pre-generated shards.
 		if (_preGeneratedShards == null && _preloadShards)
 		{
+			if (_fragmented == null)
+			{
+				GD.PrintErr("No fragment scene found");
+				return;
+			}
 			_fragmentedInstance = _fragmented.Instantiate() as Node3D;
 		}
 		else if (_preloadShards)
@@ -168,6 +173,7 @@ public partial class Destructible : Node
 		{
 			UpdateConfigurationWarnings();
 		}
+		_Ready();
 	}
 
 
@@ -179,6 +185,7 @@ public partial class Destructible : Node
 		{
 			UpdateConfigurationWarnings();
 		}
+		_Ready();
 	}
 
 
@@ -190,6 +197,7 @@ public partial class Destructible : Node
 		{
 			UpdateConfigurationWarnings();
 		}
+		_Ready();
 	}
 
 
