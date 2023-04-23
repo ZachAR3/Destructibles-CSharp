@@ -65,6 +65,14 @@ public partial class Destructible : Node
 
 	[Export()] private PackedScene _preGeneratedShards;
 
+	[Export()] private float _shardMass = 1f;
+
+	[Export()] private float _linearDampening = 0f;
+	[Export()] private RigidBody3D.DampMode _linearDampMode = RigidBody3D.DampMode.Combine;
+	
+	[Export()] private float _angularDampening = 0f;
+	[Export()] private RigidBody3D.DampMode _angularDampMode = RigidBody3D.DampMode.Combine;
+
 	private bool _saveToScene;
 	private Node3D _shards;
 	private Node3D _fragmentedInstance;
@@ -102,8 +110,11 @@ public partial class Destructible : Node
 			}
 			DestructibleUtils destructionUtils = new DestructibleUtils();
 			_shards = await destructionUtils.CreateShards(_fragmentedInstance,
-				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _fadeDelay, _shrinkDelay, _particleFade, _saveToScene,
-				_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
+				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _shardMass, _fadeDelay,
+				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode, 
+				_angularDampening, _angularDampMode, _savePath, _cleanCollisionMesh, 
+				_simplifyCollisionMesh);
+
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
 			{
@@ -129,8 +140,13 @@ public partial class Destructible : Node
 				shard.FadeDelay = _fadeDelay;
 				shard.ExplosionPower = explosionPower;
 				shard.ExplosionDirection = explosionDirection;
+				shard.Mass = _shardMass;
 				shard.ShrinkDelay = _shrinkDelay;
 				shard.ParticleFade = _particleFade;
+				shard.LinearDamp = _linearDampening;
+				shard.LinearDampMode = _linearDampMode;
+				shard.AngularDamp = _angularDampening;
+				shard.AngularDampMode = _angularDampMode;
 			}
 		}
 

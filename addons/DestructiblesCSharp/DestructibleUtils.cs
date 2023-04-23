@@ -8,8 +8,10 @@ public partial class DestructibleUtils : Node
 {
 	public async Task<Node3D> CreateShards(Node3D obj, PackedScene shardScene, uint collisionLayers,
 		uint collisionMasks,
-		float explosionPower, Vector3 explosionDirection, float fadeDelay, float shrinkDelay, bool particleFade, bool saveToScene,
-		string saveDirectory = "res://", bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
+		float explosionPower, Vector3 explosionDirection, float shardMass, float fadeDelay, float shrinkDelay, 
+		bool particleFade, bool saveToScene, float linearDampening, RigidBody3D.DampMode linearDampMode, 
+		float angularDampening, RigidBody3D.DampMode angularDampMode, string saveDirectory = "res://", 
+		bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
 
 	{
 		// Creates new shards holder and sets the name to be that of the object + Shards
@@ -63,8 +65,13 @@ public partial class DestructibleUtils : Node
 				newShard.FadeDelay = fadeDelay;
 				newShard.ExplosionPower = explosionPower;
 				newShard.ExplosionDirection = explosionDirection;
+				newShard.Mass = shardMass;
 				newShard.ShrinkDelay = shrinkDelay;
 				newShard.ParticleFade = particleFade;
+				newShard.LinearDamp = linearDampening;
+				newShard.LinearDampMode = linearDampMode;
+				newShard.AngularDamp = angularDampening;
+				newShard.AngularDampMode = angularDampMode;
 
 				// Adds the shard to the shard list
 				shards.AddChild(newShard);
