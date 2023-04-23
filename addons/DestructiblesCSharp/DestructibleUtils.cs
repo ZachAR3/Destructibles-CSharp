@@ -15,18 +15,19 @@ public partial class DestructibleUtils : Node
 
 	{
 		// Creates new shards holder and sets the name to be that of the object + Shards
+		string saveShardDir = saveDirectory;
 		Node3D shards = new Node3D();
 		shards.Name = obj.Name + "Shards";
 		
 	
 		// Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
-		if (!saveDirectory.EndsWith("/"))
+		if (!saveShardDir.EndsWith("/"))
 		{
-			saveDirectory += "/";
+			saveShardDir += "/";
 		}
 		
 		// Sets the save directory to be the given director + Shards.tscn
-		saveDirectory += obj.Name + "Shards.tscn";
+		saveShardDir += obj.Name + "Shards.tscn";
 
 		// Used to run the bulk of the generation on a separate thread to reduce stutter.
 		await Task.Run(() =>
@@ -81,6 +82,7 @@ public partial class DestructibleUtils : Node
 			if (saveToScene)
 			{
 				PackedScene savedShards = new PackedScene();
+				DirAccess saveDirectoryFolder = DirAccess.Open(saveDirectory);
 				foreach (Node shard in shards.GetChildren())
 				{
 					shard.Owner = shards;
@@ -90,8 +92,14 @@ public partial class DestructibleUtils : Node
 					}
 				}
 
+				if (saveDirectoryFolder == null)
+				{
+					GD.PrintErr("Save directory error:", DirAccess.GetOpenError());
+					return;
+				}
+
 				savedShards.Pack(shards);
-				ResourceSaver.Save(savedShards, saveDirectory);
+				ResourceSaver.Save(savedShards, saveShardDir);
 			}
 
 			// Necessary to avoid orphan nodes
