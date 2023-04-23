@@ -36,8 +36,8 @@ public partial class Destructible : Node
 	[Export] private bool _particleFade = true;
 
 	[ExportGroup("Collision")]
-	[Export(PropertyHint.Layers2DPhysics)] private uint _collisionLayers = 1;
-	[Export(PropertyHint.Layers2DPhysics)] private uint _layerMasks = 1;
+	[Export(PropertyHint.Layers3DPhysics)] private uint _collisionLayers = 1;
+	[Export(PropertyHint.Layers3DPhysics)] private uint _layerMasks = 1;
 
 
 	[ExportGroup("Generation")]
