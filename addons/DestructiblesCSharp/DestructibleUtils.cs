@@ -8,7 +8,7 @@ public partial class DestructibleUtils : Node
 {
 	public async Task<Node3D> CreateShards(Node3D obj, PackedScene shardScene, uint collisionLayers,
 		uint collisionMasks,
-		float explosionPower, Vector3 explosionDirection, float shardMass, float fadeDelay, float shrinkDelay, 
+		float explosionPower, Vector3 explosionDirection, float shardMass,  float fadeDelay, float shrinkDelay, 
 		bool particleFade, bool saveToScene, float linearDampening, RigidBody3D.DampMode linearDampMode, 
 		float angularDampening, RigidBody3D.DampMode angularDampMode, string saveDirectory = "res://", 
 		bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
@@ -18,8 +18,8 @@ public partial class DestructibleUtils : Node
 		string saveShardDir = saveDirectory;
 		Node3D shards = new Node3D();
 		shards.Name = obj.Name + "Shards";
-		
-	
+
+
 		// Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
 		if (!saveShardDir.EndsWith("/"))
 		{
@@ -100,6 +100,7 @@ public partial class DestructibleUtils : Node
 
 				savedShards.Pack(shards);
 				ResourceSaver.Save(savedShards, saveShardDir);
+				GD.PrintRich("[color=green]Generation completed.[/color]");
 			}
 
 			// Necessary to avoid orphan nodes

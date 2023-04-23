@@ -50,6 +50,7 @@ public partial class Destructible : Node
 			if (value)
 			{
 				_saveToScene = true;
+				GD.PrintRich("[color=yellow]Generation started.[/color]");
 				Destroy();
 			}
 		}
@@ -74,6 +75,7 @@ public partial class Destructible : Node
 	[Export()] private RigidBody3D.DampMode _angularDampMode = RigidBody3D.DampMode.Combine;
 
 	private bool _saveToScene;
+	private Vector3 _scale = Vector3.One;
 	private Node3D _shards;
 	private Node3D _fragmentedInstance;
 
@@ -81,6 +83,7 @@ public partial class Destructible : Node
 	public override void _Ready()
 	{
 		_shardContainer = GetNode("../../");
+		_scale = GetParent<Node3D>().Scale;
 
 
 		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
