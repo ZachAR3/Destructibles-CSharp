@@ -54,14 +54,14 @@ public partial class Destructible : Node
 			}
 		}
 	}
+	
+	[Export()] private bool _preloadShards = true;
 
 	[Export(PropertyHint.Dir)] private string _savePath = "res://shard";
 
 	[Export()] private bool _cleanCollisionMesh = true;
 
 	[Export()] private bool _simplifyCollisionMesh = false;
-
-	[Export()] private bool _preloadShards = true;
 
 	[Export()] private PackedScene _preGeneratedShards;
 
@@ -104,7 +104,7 @@ public partial class Destructible : Node
 		if (_preGeneratedShards == null)
 		{
 			// Checks if shards are preloaded, if not loads them
-			if (!_preloadShards)
+			if (!IsInstanceValid(_fragmentedInstance) || _fragmentedInstance == null)
 			{
 				_fragmentedInstance = _fragmented.Instantiate() as Node3D;
 			}
@@ -118,7 +118,6 @@ public partial class Destructible : Node
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
 			{
-				_Ready(); // Rerun the ready function to reinitialize our scenes that were freed.
 				return;
 			}
 		}
