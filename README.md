@@ -12,7 +12,7 @@ Used in conjuction with shard meshes to easily create destructable objects.
 4. Install and **enable** the **Destructibles plugin** from the asset library. (You may have to click build in the top right corner if you get errors, while trying to enable it; or under `project > tools > C# > press Create C# Solution`)
 5. Add a **Destruction** node to the **intact** scene and set the `Fragmented` scene to the **fragmented** scene.
 6. Set the `Shard Container` to the node the fragmented objects will be added to at runtime or leave it empty.
-7. Call **Destroy(explosionPower: int)** to destroy the object. (Explosion power parameter can be left blank to use the default value)
+7. Call **Destroy(explosionPower: int, explosionDirection : Vector3())** to destroy the object with a given explosion force and direction. (To have each shard given a random direction use Vector3.ZERO as the direction)
 
 ## Options
 Under the generation tab there are various options which affect both pre-generated and dynamically generated shards. Such options are listed below along with a short explanation:
