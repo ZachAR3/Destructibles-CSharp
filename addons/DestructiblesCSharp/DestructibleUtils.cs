@@ -8,7 +8,7 @@ public partial class DestructibleUtils : Node
 {
 	public async Task<Node3D> CreateShards(Node3D obj, PackedScene shardScene, uint collisionLayers,
 		uint collisionMasks,
-		float explosionPower, float fadeDelay, float shrinkDelay, bool particleFade, bool saveToScene,
+		float explosionPower, Vector3 explosionDirection, float fadeDelay, float shrinkDelay, bool particleFade, bool saveToScene,
 		string saveDirectory = "res://", bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
 
 	{
@@ -62,6 +62,7 @@ public partial class DestructibleUtils : Node
 				newShard.CollisionMask = collisionMasks;
 				newShard.FadeDelay = fadeDelay;
 				newShard.ExplosionPower = explosionPower;
+				newShard.ExplosionDirection = explosionDirection;
 				newShard.ShrinkDelay = shrinkDelay;
 				newShard.ParticleFade = particleFade;
 

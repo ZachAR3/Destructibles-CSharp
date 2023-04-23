@@ -1,5 +1,6 @@
 using Godot;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 
 [Tool]
@@ -88,7 +89,7 @@ public partial class Destructible : Node
 
 
 	// Destroy function to be called when destroying an object (Also used to handle pre-generation of shards)
-	private async void Destroy(float explosionPower = 4f)
+	private async void Destroy(float explosionPower = 4f, Vector3 explosionDirection = default(Vector3))
 	{
 		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		// Checks if a pre-generated shard scene is given, if not generates the shards with the given options.
@@ -101,7 +102,7 @@ public partial class Destructible : Node
 			}
 			DestructibleUtils destructionUtils = new DestructibleUtils();
 			_shards = await destructionUtils.CreateShards(_fragmentedInstance,
-				_shard, _collisionLayers, _layerMasks, explosionPower, _fadeDelay, _shrinkDelay, _particleFade, _saveToScene,
+				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _fadeDelay, _shrinkDelay, _particleFade, _saveToScene,
 				_savePath, _cleanCollisionMesh, _simplifyCollisionMesh);
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
@@ -127,6 +128,7 @@ public partial class Destructible : Node
 				shard.CollisionMask = _layerMasks;
 				shard.FadeDelay = _fadeDelay;
 				shard.ExplosionPower = explosionPower;
+				shard.ExplosionDirection = explosionDirection;
 				shard.ShrinkDelay = _shrinkDelay;
 				shard.ParticleFade = _particleFade;
 			}

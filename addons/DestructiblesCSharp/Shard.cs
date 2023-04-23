@@ -9,6 +9,7 @@ public partial class Shard : RigidBody3D
 	public float FadeDelay = -1;
 	public float ExplosionPower;
 	public bool ParticleFade = true;
+	public Vector3 ExplosionDirection = Vector3.Zero;
 
 	public override void _Ready()
 	{
@@ -25,6 +26,12 @@ public partial class Shard : RigidBody3D
 		// Awaits two physics frame due to this bug https://github.com/godotengine/godot/issues/75934
 		await ToSignal(GetTree(), "physics_frame");
 		await ToSignal(GetTree(), "physics_frame");
+
+		// If no direction for explosion is given set a random one.
+		if (ExplosionDirection == Vector3.Zero)
+		{
+			ExplosionDirection = RandomDirection();
+		}
 
 		// Gets the mesh instance and material for later use
 		MeshInstance3D  meshInstance = GetNode<MeshInstance3D>("MeshInstance");
@@ -48,7 +55,7 @@ public partial class Shard : RigidBody3D
 
 		Tween tween = CreateTween();
 		// Applies explosion force (if it has any) to the shard.
-		ApplyImpulse(RandomDirection() * ExplosionPower, -Position.Normalized());
+		ApplyImpulse(ExplosionDirection * ExplosionPower, -Position.Normalized());
 
 		// Run fade tween if fade is enabled (checked through fade delay being greater than 0)
 		if (FadeDelay > 0)
