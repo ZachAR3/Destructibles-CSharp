@@ -20,6 +20,11 @@ Under the generation tab there are various options which affect both pre-generat
 * `Simplify collision mesh` which at the cost of time and processing power simplifies the shard meshes collision shapes which can drastically improve performance in instances with large quantites of shards.
 * `Clean collision mesh` is reccomended to be enabled as it doesn't cause much of a performance impact and removes duplicate and interior vertices which aren't needed.
 * `ParticleFade` when enabled causes the fade affect to appear spotted such as particles or dust. When disabled uses a clean fade.
+* `Mass` Simply setting the set the mass of each shard.
+* `Linear dampening` Sets the linear dampening affect on each shard.
+* `Linear dampening mode` Sets the linear dampening mode on each shard (Combine, adds the local dampening + the global, while replace just uses the local).
+* `Angular dampening` Sets the angular dampening affect on each shard.
+* `Angular dampening mode` Sets the angular dampening mode on each shard (Combine, adds the local dampening + the global, while replace just uses the local).
 
 
 ## Optimizations
