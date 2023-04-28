@@ -161,8 +161,8 @@ public partial class Destructible : Node
 		}
 		_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
 		_shards.TopLevel = true;
-		_shards.GlobalPosition = GetParent<Node3D>().GlobalPosition;
 		_shardContainer.AddChild(_shards);
+		_shards.GlobalPosition = GetParent<Node3D>().GlobalPosition;
 
 		// Necessary to avoid orphan nodes
 		GetParent().QueueFree();
