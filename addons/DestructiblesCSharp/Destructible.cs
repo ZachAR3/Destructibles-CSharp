@@ -82,7 +82,10 @@ public partial class Destructible : Node
 
 	public override void _Ready()
 	{
-		_shardContainer = GetNode("../../");
+		if (!Engine.IsEditorHint())
+		{
+			_shardContainer = GetNode("../../");
+		}
 		_scale = GetParent<Node3D>().Scale;
 
 
@@ -121,7 +124,7 @@ public partial class Destructible : Node
 				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _shardMass, _fadeDelay,
 				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode, 
 				_angularDampening, _angularDampMode, _savePath, _cleanCollisionMesh, 
-				_simplifyCollisionMesh);
+				_simplifyCollisionMesh, _scale);
 
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
@@ -156,13 +159,14 @@ public partial class Destructible : Node
 				shard.AngularDampMode = _angularDampMode;
 			}
 		}
-
-		// Adds the shards scene as a child of the container
-		_shardContainer.AddChild(_shards);
+		// Sets shards rotation and scale
 		Transform3D shardsGlobalTransform = _shards.GlobalTransform;
 		shardsGlobalTransform.Origin = GetParent<Node3D>().GlobalTransform.Origin;
 		_shards.GlobalTransform = shardsGlobalTransform;
+		_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
 		_shards.TopLevel = true;
+		
+		_shardContainer.AddChild(_shards);
 		// Necessary to avoid orphan nodes
 		GetParent().QueueFree();
 	}

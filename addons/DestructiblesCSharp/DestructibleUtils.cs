@@ -11,7 +11,7 @@ public partial class DestructibleUtils : Node
 		float explosionPower, Vector3 explosionDirection, float shardMass,  float fadeDelay, float shrinkDelay, 
 		bool particleFade, bool saveToScene, float linearDampening, RigidBody3D.DampMode linearDampMode, 
 		float angularDampening, RigidBody3D.DampMode angularDampMode, string saveDirectory = "res://", 
-		bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false)
+		bool cleanCollisionMesh = true, bool simplifyCollisionMesh = false, Vector3 scale = new Vector3())
 
 	{
 		// Creates new shards holder and sets the name to be that of the object + Shards
@@ -50,12 +50,14 @@ public partial class DestructibleUtils : Node
 				// Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
 				MeshInstance3D meshInstance = new MeshInstance3D();
 				meshInstance.Mesh = shardMeshTyped.Mesh;
+				meshInstance.Scale = scale;
 				meshInstance.Name = "MeshInstance";
 				newShard.AddChild(meshInstance);
 
 				// Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
 				CollisionShape3D collisionShape = new CollisionShape3D();
 				collisionShape.Shape = meshInstance.Mesh.CreateConvexShape(cleanCollisionMesh, simplifyCollisionMesh);
+				collisionShape.Scale = scale;
 				collisionShape.Name = "CollisionShape";
 				newShard.AddChild(collisionShape);
 
@@ -106,7 +108,7 @@ public partial class DestructibleUtils : Node
 			// Necessary to avoid orphan nodes
 			obj.QueueFree();
 		});
-
+		
 		return shards;
 	}
 

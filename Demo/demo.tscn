@@ -36,7 +36,7 @@ mesh = SubResource("BoxMesh_yig7p")
 shape = SubResource("ConcavePolygonShape3D_dirmc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.680694, 0.293844, -0.671052, 0, 0.916027, 0.401115, 0.732567, -0.273037, 0.623535, -5.55537, 3.32067, 5.16199)
+transform = Transform3D(0.680694, 0.293844, -0.671052, 0, 0.916027, 0.401116, 0.732567, -0.273037, 0.623535, -5.55537, 6.27569, 9.19105)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -60,5 +60,6 @@ grow_vertical = 0
 text = "Destroy"
 
 [node name="DestructibleCube" parent="." instance=ExtResource("2_ytie2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.520294, 0)
 
 [connection signal="pressed" from="DestroyButton" to="." method="_on_destroy_button_pressed"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://d0q30ktnicuth" path="res://Demo/white.tres" id="1_pn1no"]
 [ext_resource type="Script" path="res://addons/DestructiblesCSharp/Destructible.cs" id="2_qgx7i"]
-[ext_resource type="PackedScene" uid="uid://bypyd46uq2tha" path="res://Demo/fractured_cube.glb" id="3_hrt8e"]
+[ext_resource type="PackedScene" uid="uid://bypyd46uq2tha" path="res://Demo/fractured_cube.glb" id="3_361ly"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_h5eed"]
 size = Vector3(2, 2, 2)
@@ -14,5 +14,5 @@ mesh = SubResource("BoxMesh_h5eed")
 
 [node name="Destructible" type="Node" parent="."]
 script = ExtResource("2_qgx7i")
-_fragmented = ExtResource("3_hrt8e")
-_savePath = "res://"
+_fragmented = ExtResource("3_361ly")
+_savePath = "res://Demo"
