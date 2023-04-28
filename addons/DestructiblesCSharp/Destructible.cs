@@ -159,14 +159,11 @@ public partial class Destructible : Node
 				shard.AngularDampMode = _angularDampMode;
 			}
 		}
-		// Sets shards rotation and scale
-		Transform3D shardsGlobalTransform = _shards.GlobalTransform;
-		shardsGlobalTransform.Origin = GetParent<Node3D>().GlobalTransform.Origin;
-		_shards.GlobalTransform = shardsGlobalTransform;
 		_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
 		_shards.TopLevel = true;
-		
+		_shards.GlobalPosition = GetParent<Node3D>().GlobalPosition;
 		_shardContainer.AddChild(_shards);
+
 		// Necessary to avoid orphan nodes
 		GetParent().QueueFree();
 	}

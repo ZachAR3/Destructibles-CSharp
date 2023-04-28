@@ -60,6 +60,6 @@ grow_vertical = 0
 text = "Destroy"
 
 [node name="DestructibleCube" parent="." instance=ExtResource("2_ytie2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.520294, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.23467, 0.520294, 0)
 
 [connection signal="pressed" from="DestroyButton" to="." method="_on_destroy_button_pressed"]
