@@ -29,10 +29,10 @@ public partial class Shard : RigidBody3D
 			ExplosionDirection = RandomDirection();
 
 		// Gets the mesh instance and material for later use
-		MeshInstance3D  meshInstance = GetNode<MeshInstance3D>("MeshInstance");
-		Material materialSurface = meshInstance.Mesh.SurfaceGetMaterial(0);
+		var meshInstance = GetNode<MeshInstance3D>("MeshInstance");
+		var materialSurface = meshInstance.Mesh.SurfaceGetMaterial(0);
 		// Duplicates material, so tweens don't affect original object / other instances of it.
-		StandardMaterial3D material = materialSurface.Duplicate() as StandardMaterial3D;
+		var material = materialSurface.Duplicate() as StandardMaterial3D;
 
 		// Returns if no material is found
 		if (material == null)
@@ -48,7 +48,7 @@ public partial class Shard : RigidBody3D
 		material.Transparency = ParticleFade ? BaseMaterial3D.TransparencyEnum.AlphaHash : BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
 
 
-		Tween tween = CreateTween();
+		var tween = CreateTween();
 		// Applies explosion force (if it has any) to the shard.
 		ApplyImpulse(ExplosionDirection * ExplosionPower, -Position.Normalized());
 

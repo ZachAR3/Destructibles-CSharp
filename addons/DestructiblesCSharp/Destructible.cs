@@ -125,7 +125,8 @@ public partial class Destructible : Node
 					return;
 				}
 			}
-			DestructibleUtils destructionUtils = new DestructibleUtils();
+
+			var destructionUtils = new DestructibleUtils();
 			_shards = await destructionUtils.CreateShards(_fragmentedInstance,
 				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _shardMass, _fadeDelay,
 				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode,
@@ -149,7 +150,7 @@ public partial class Destructible : Node
 			// Sets the variables on each shard that would otherwise be set when generating the shards dynamically.
 			foreach (Node shardNode in _shards.GetChildren())
 			{
-				Shard shard = shardNode as Shard;
+				var shard = shardNode as Shard;
 
 				shard.CollisionLayer = _collisionLayers;
 				shard.CollisionMask = _layerMasks;
@@ -215,7 +216,7 @@ public partial class Destructible : Node
 	// Run when an above function issues a warning, passes this warning on to the user.
 	public override string[] _GetConfigurationWarnings()
 	{
-		string[] warnings = {};
+		var warnings = new string[] { };
 
 		if (_fragmented == null)
 			warnings.Append("No fragmented version set");

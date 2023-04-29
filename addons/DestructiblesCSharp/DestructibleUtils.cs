@@ -13,13 +13,13 @@ public partial class DestructibleUtils : Node
 
 	{
 		// Creates new shards holder and sets the name to be that of the object + Shards
-		string saveShardDir = saveDirectory;
-		Node3D shards = new Node3D();
-		shards.Name = obj.Name + "Shards";
+		var saveShardDir = saveDirectory;
+        var shards = new Node3D {
+            Name = obj.Name + "Shards"
+        };
 
-
-		// Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
-		if (!saveShardDir.EndsWith("/"))
+        // Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
+        if (!saveShardDir.EndsWith("/"))
 			saveShardDir += "/";
 		
 		// Sets the save directory to be the given director + Shards.tscn
@@ -38,22 +38,26 @@ public partial class DestructibleUtils : Node
 					continue;
 
 				// Instantiates a new shard
-				MeshInstance3D shardMeshTyped = mesh;
+				var shardMeshTyped = mesh;
 				Shard newShard = shardScene.Instantiate<Shard>();
-				
-				// Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
-				MeshInstance3D meshInstance = new MeshInstance3D();
-				meshInstance.Mesh = shardMeshTyped.Mesh;
-				meshInstance.Scale = scale;
-				meshInstance.Name = "MeshInstance";
-				newShard.AddChild(meshInstance);
 
-				// Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
-				CollisionShape3D collisionShape = new CollisionShape3D();
-				collisionShape.Shape = meshInstance.Mesh.CreateConvexShape(cleanCollisionMesh, simplifyCollisionMesh);
-				collisionShape.Scale = scale;
-				collisionShape.Name = "CollisionShape";
-				newShard.AddChild(collisionShape);
+                // Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
+                var meshInstance = new MeshInstance3D 
+				{
+                    Mesh = shardMeshTyped.Mesh,
+                    Scale = scale,
+                    Name = "MeshInstance"
+                };
+                newShard.AddChild(meshInstance);
+
+                // Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
+                var collisionShape = new CollisionShape3D
+                {
+                    Shape = meshInstance.Mesh.CreateConvexShape(cleanCollisionMesh, simplifyCollisionMesh),
+                    Scale = scale,
+                    Name = "CollisionShape"
+                };
+                newShard.AddChild(collisionShape);
 
 				// Sets all of the shard properties
 				newShard.Position = shardMeshTyped.Position;
@@ -77,8 +81,9 @@ public partial class DestructibleUtils : Node
 			// Checks if this is to be saved to a scene (for pre-generation use) and if so, saves it to the given path.
 			if (saveToScene)
 			{
-				PackedScene savedShards = new PackedScene();
-				DirAccess saveDirectoryFolder = DirAccess.Open(saveDirectory);
+				var savedShards = new PackedScene();
+				var saveDirectoryFolder = DirAccess.Open(saveDirectory);
+
 				foreach (Node shard in shards.GetChildren())
 				{
 					shard.Owner = shards;
