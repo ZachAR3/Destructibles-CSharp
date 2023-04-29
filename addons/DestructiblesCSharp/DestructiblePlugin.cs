@@ -1,3 +1,5 @@
+namespace Destructibles;
+
 #if TOOLS
 [Tool]
 public partial class DestructiblePlugin : EditorPlugin

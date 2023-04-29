@@ -2,6 +2,8 @@ global using Godot;
 global using System.Linq;
 global using System.Threading.Tasks;
 
+namespace Destructibles;
+
 using System.Runtime.InteropServices;
 
 [Tool]

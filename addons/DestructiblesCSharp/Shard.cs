@@ -1,3 +1,5 @@
+namespace Destructibles;
+
 [Tool]
 public partial class Shard : RigidBody3D
 {
