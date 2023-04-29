@@ -127,11 +127,29 @@ public partial class Destructible : Node
 			}
 
 			var destructionUtils = new DestructibleUtils();
-			_shards = await destructionUtils.CreateShards(_fragmentedInstance,
-				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _shardMass, _fadeDelay,
-				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode,
-				_angularDampening, _angularDampMode, _savePath, _cleanCollisionMesh,
-				_simplifyCollisionMesh, _scale);
+
+			_shards = await destructionUtils.CreateShards(new ShardSettings
+			{
+                Obj = _fragmentedInstance,
+                ShardScene = _shard, 
+				CollisionLayers = _collisionLayers, 
+				CollisionMasks = _layerMasks, 
+				ExplosionPower = explosionPower, 
+				ExplosionDirection = explosionDirection, 
+				ShardMass = _shardMass, 
+				FadeDelay = _fadeDelay,
+                ShrinkDelay = _shrinkDelay, 
+				ParticleFade = _particleFade, 
+				SaveToScene = _saveToScene, 
+				LinearDampening = _linearDampening, 
+				LinearDampMode = _linearDampMode,
+                AngularDampening = _angularDampening, 
+				AngularDampMode = _angularDampMode, 
+				SaveDirectory = _savePath, 
+				CleanCollisionMesh = _cleanCollisionMesh,
+                SimplifyCollisionMesh = _simplifyCollisionMesh, 
+				Scale = _scale
+            });
 
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
