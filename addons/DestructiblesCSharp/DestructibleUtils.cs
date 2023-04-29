@@ -27,14 +27,12 @@ public partial class DestructibleUtils : Node
 			// Runs a loop for all of the children of the scene used to create the shards (should only be MeshInstances)
 			foreach (var shardMesh in settings.Obj.GetChildren())
 			{
-				var mesh = shardMesh as MeshInstance3D;
-				
-				// Returns if no MeshInstance is found
-				if (mesh == null)
-					continue;
+                // Returns if no MeshInstance is found
+                if (shardMesh is not MeshInstance3D mesh)
+                    continue;
 
-				// Instantiates a new shard
-				var shardMeshTyped = mesh;
+                // Instantiates a new shard
+                var shardMeshTyped = mesh;
 				Shard newShard = settings.ShardScene.Instantiate<Shard>();
 
                 // Sets the shards mesh instance to be that of the objects and adds it as a child of the shard

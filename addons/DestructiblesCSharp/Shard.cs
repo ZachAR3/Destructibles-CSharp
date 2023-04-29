@@ -31,18 +31,17 @@ public partial class Shard : RigidBody3D
 		// Gets the mesh instance and material for later use
 		var meshInstance = GetNode<MeshInstance3D>("MeshInstance");
 		var materialSurface = meshInstance.Mesh.SurfaceGetMaterial(0);
-		// Duplicates material, so tweens don't affect original object / other instances of it.
-		var material = materialSurface.Duplicate() as StandardMaterial3D;
+        // Duplicates material, so tweens don't affect original object / other instances of it.
 
-		// Returns if no material is found
-		if (material == null)
-		{
-			GD.PrintErr("No material found, returning...");
-			return;
-		}
+        // Returns if no material is found
+        if (materialSurface.Duplicate() is not StandardMaterial3D material)
+        {
+            GD.PrintErr("No material found, returning...");
+            return;
+        }
 
-		// Sets mesh material to be new material
-		meshInstance.MaterialOverride = material;
+        // Sets mesh material to be new material
+        meshInstance.MaterialOverride = material;
 
 		// Checks if ParticleFade is true, and if so uses particle fade material. Otherwise, uses the standard fade.
 		material.Transparency = ParticleFade ? BaseMaterial3D.TransparencyEnum.AlphaHash : BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
