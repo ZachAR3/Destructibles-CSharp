@@ -14,9 +14,7 @@ public partial class Shard : RigidBody3D
 	{
 		// Checks if inside a game or the editor, if in a game runs initialize.
 		if (!Engine.IsEditorHint())
-		{ 
 			Initialize();
-		}
 	}
 
 
@@ -28,9 +26,7 @@ public partial class Shard : RigidBody3D
 
 		// If no direction for explosion is given set a random one.
 		if (ExplosionDirection == Vector3.Zero)
-		{
 			ExplosionDirection = RandomDirection();
-		}
 
 		// Gets the mesh instance and material for later use
 		MeshInstance3D  meshInstance = GetNode<MeshInstance3D>("MeshInstance");
@@ -80,9 +76,8 @@ public partial class Shard : RigidBody3D
 
 	
 	// Simple function to return a random direction
-	static Vector3 RandomDirection()
-	{
-		return (new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) - Vector3.One / 2.0f).Normalized() * 2.0f;
-	}
+	static Vector3 RandomDirection() =>
+        (new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) - Vector3.One / 2.0f)
+			.Normalized() * 2.0f;
 
 }

@@ -82,12 +82,10 @@ public partial class Destructible : Node
 	private Node3D _shards;
 	private Node3D _fragmentedInstance;
 
-
 	public override void _Ready()
 	{
 		_shardContainer = GetNodeOrNull("../../");
 		_scale = GetParent<Node3D>().Scale;
-
 
 		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		// If preloading shards is enabled instances the correct shards for either dynamic generated or pre-generated shards.
@@ -167,6 +165,7 @@ public partial class Destructible : Node
 				shard.AngularDampMode = _angularDampMode;
 			}
 		}
+
 		_shards.TopLevel = true;
 		_shardContainer.AddChild(_shards);
 		_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
@@ -181,10 +180,10 @@ public partial class Destructible : Node
 	private void SetFragmented(PackedScene to)
 	{
 		_fragmented = to;
+
 		if (IsInsideTree())
-		{
 			UpdateConfigurationWarnings();
-		}
+
 		_Ready();
 	}
 
@@ -193,10 +192,10 @@ public partial class Destructible : Node
 	private void SetShard(PackedScene to)
 	{
 		_shard = to;
+
 		if (IsInsideTree())
-		{
 			UpdateConfigurationWarnings();
-		}
+
 		_Ready();
 	}
 
@@ -205,10 +204,10 @@ public partial class Destructible : Node
 	private void SetShardContainer(Node to)
 	{
 		_shardContainer = to;
+
 		if (IsInsideTree())
-		{
 			UpdateConfigurationWarnings();
-		}
+
 		_Ready();
 	}
 
@@ -219,38 +218,29 @@ public partial class Destructible : Node
 		string[] warnings = {};
 
 		if (_fragmented == null)
-		{
 			warnings.Append("No fragmented version set");
-		}
 
 		if (_shard == null)
-		{
 			warnings.Append("No shard template set");
-		}
 
 		if (_shardContainer is PhysicsBody3D || _hasParentOfType(_shardContainer))
-		{
-			warnings.Append(
-				"The shard container is a PhysicsBody or has a PhysicsBody as a parent. This will make the shards added to it behave in unexpected ways.");
-		}
+			warnings.Append
+				("The shard container is a PhysicsBody or has a PhysicsBody " +
+				"as a parent. This will make the shards added to it behave " +
+				"in unexpected ways.");
+
 		return base._GetConfigurationWarnings();
 	}
-
 
 	// Simple function to see if a parent of a given node is a curtain type.
 	static bool _hasParentOfType(Node node)
 	{
 		if (node.GetParent() == null)
-		{
 			return false;
-		}
 
 		if (node.GetParent() is PhysicsBody3D)
-		{
 			return true;
-		}
 
 		return _hasParentOfType(node.GetParent());
 	}
-
 }

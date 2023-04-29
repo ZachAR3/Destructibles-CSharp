@@ -20,9 +20,7 @@ public partial class DestructibleUtils : Node
 
 		// Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
 		if (!saveShardDir.EndsWith("/"))
-		{
 			saveShardDir += "/";
-		}
 		
 		// Sets the save directory to be the given director + Shards.tscn
 		saveShardDir += obj.Name + "Shards.tscn";
@@ -37,9 +35,7 @@ public partial class DestructibleUtils : Node
 				
 				// Returns if no MeshInstance is found
 				if (mesh == null)
-				{
 					continue;
-				}
 
 				// Instantiates a new shard
 				MeshInstance3D shardMeshTyped = mesh;
@@ -87,9 +83,7 @@ public partial class DestructibleUtils : Node
 				{
 					shard.Owner = shards;
 					foreach (Node shardChild in shard.GetChildren())
-					{
 						shardChild.Owner = shards;
-					}
 				}
 
 				if (saveDirectoryFolder == null)

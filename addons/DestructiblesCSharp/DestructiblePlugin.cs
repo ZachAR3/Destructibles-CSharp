@@ -11,9 +11,6 @@ public partial class DestructiblePlugin : EditorPlugin
 		AddCustomType("Destructible", "Node", destructionScript, destructionTexture);
 	}
 
-	public override void _ExitTree()
-	{
-		RemoveCustomType("Destructible");
-	}
+	public override void _ExitTree() => RemoveCustomType("Destructible");
 }
 #endif
