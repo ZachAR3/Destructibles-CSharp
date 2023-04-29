@@ -1,6 +1,4 @@
 #if TOOLS
-using Godot;
-
 [Tool]
 public partial class DestructiblePlugin : EditorPlugin
 {

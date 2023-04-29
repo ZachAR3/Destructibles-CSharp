@@ -1,6 +1,3 @@
-using Godot;
-
-
 [Tool]
 public partial class Shard : RigidBody3D
 {

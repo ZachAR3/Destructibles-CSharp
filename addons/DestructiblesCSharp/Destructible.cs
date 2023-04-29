@@ -1,7 +1,8 @@
-using Godot;
-using System.Linq;
-using System.Runtime.InteropServices;
+global using Godot;
+global using System.Linq;
+global using System.Threading.Tasks;
 
+using System.Runtime.InteropServices;
 
 [Tool]
 public partial class Destructible : Node
