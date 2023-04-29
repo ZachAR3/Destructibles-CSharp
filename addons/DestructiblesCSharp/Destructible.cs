@@ -55,7 +55,7 @@ public partial class Destructible : Node
 			}
 		}
 	}
-	
+
 	[Export()] private bool _preloadShards = true;
 
 	[Export(PropertyHint.Dir)] private string _savePath = "res://shard";
@@ -70,7 +70,7 @@ public partial class Destructible : Node
 
 	[Export()] private float _linearDampening = 0f;
 	[Export()] private RigidBody3D.DampMode _linearDampMode = RigidBody3D.DampMode.Combine;
-	
+
 	[Export()] private float _angularDampening = 0f;
 	[Export()] private RigidBody3D.DampMode _angularDampMode = RigidBody3D.DampMode.Combine;
 
@@ -82,10 +82,7 @@ public partial class Destructible : Node
 
 	public override void _Ready()
 	{
-		if (!Engine.IsEditorHint())
-		{
-			_shardContainer = GetNode("../../");
-		}
+		_shardContainer = GetNodeOrNull("../../");
 		_scale = GetParent<Node3D>().Scale;
 
 
@@ -117,13 +114,21 @@ public partial class Destructible : Node
 			// Checks if shards are preloaded, if not loads them
 			if (!IsInstanceValid(_fragmentedInstance) || _fragmentedInstance == null)
 			{
-				_fragmentedInstance = _fragmented.Instantiate() as Node3D;
+				if (_fragmented != null)
+				{
+					_fragmentedInstance = _fragmented.Instantiate() as Node3D;
+				}
+				else
+				{
+					GD.PrintErr("No fragmented scene given, aborting!");
+					return;
+				}
 			}
 			DestructibleUtils destructionUtils = new DestructibleUtils();
 			_shards = await destructionUtils.CreateShards(_fragmentedInstance,
 				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _shardMass, _fadeDelay,
-				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode, 
-				_angularDampening, _angularDampMode, _savePath, _cleanCollisionMesh, 
+				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode,
+				_angularDampening, _angularDampMode, _savePath, _cleanCollisionMesh,
 				_simplifyCollisionMesh, _scale);
 
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
