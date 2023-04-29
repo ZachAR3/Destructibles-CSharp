@@ -10,12 +10,12 @@ public partial class DestructibleUtils : Node
 	{
 		// Creates new shards holder and sets the name to be that of the object + Shards
 		var saveShardDir = settings.SaveDirectory;
-        var shards = new Node3D {
-            Name = settings.Obj.Name + "Shards"
-        };
+		var shards = new Node3D {
+			Name = settings.Obj.Name + "Shards"
+		};
 
-        // Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
-        if (!saveShardDir.EndsWith("/"))
+		// Adds a slash if directory doesn't end with one since the file explorer doesn't give a final slash when using it to set directory.
+		if (!saveShardDir.EndsWith("/"))
 			saveShardDir += "/";
 		
 		// Sets the save directory to be the given director + Shards.tscn
@@ -27,33 +27,33 @@ public partial class DestructibleUtils : Node
 			// Runs a loop for all of the children of the scene used to create the shards (should only be MeshInstances)
 			foreach (var shardMesh in settings.Obj.GetChildren())
 			{
-                // Returns if no MeshInstance is found
-                if (shardMesh is not MeshInstance3D mesh)
-                    continue;
+				// Returns if no MeshInstance is found
+				if (shardMesh is not MeshInstance3D mesh)
+					continue;
 
-                // Instantiates a new shard
-                var shardMeshTyped = mesh;
+				// Instantiates a new shard
+				var shardMeshTyped = mesh;
 				Shard newShard = settings.ShardScene.Instantiate<Shard>();
 
-                // Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
-                var meshInstance = new MeshInstance3D 
+				// Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
+				var meshInstance = new MeshInstance3D 
 				{
-                    Mesh = shardMeshTyped.Mesh,
-                    Scale = settings.Scale,
-                    Name = "MeshInstance"
-                };
-                newShard.AddChild(meshInstance);
+					Mesh = shardMeshTyped.Mesh,
+					Scale = settings.Scale,
+					Name = "MeshInstance"
+				};
+				newShard.AddChild(meshInstance);
 
-                // Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
-                var collisionShape = new CollisionShape3D
-                {
-                    Shape = meshInstance.Mesh.CreateConvexShape(
+				// Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
+				var collisionShape = new CollisionShape3D
+				{
+					Shape = meshInstance.Mesh.CreateConvexShape(
 						settings.CleanCollisionMesh, 
 						settings.SimplifyCollisionMesh),
-                    Scale = settings.Scale,
-                    Name = "CollisionShape"
-                };
-                newShard.AddChild(collisionShape);
+					Scale = settings.Scale,
+					Name = "CollisionShape"
+				};
+				newShard.AddChild(collisionShape);
 
 				// Sets all of the shard properties
 				newShard.Position = shardMeshTyped.Position;
@@ -98,8 +98,8 @@ public partial class DestructibleUtils : Node
 				GD.PrintRich("[color=green]Generation completed.[/color]");
 			}
 
-            // Necessary to avoid orphan nodes
-            settings.Obj.QueueFree();
+			// Necessary to avoid orphan nodes
+			settings.Obj.QueueFree();
 		});
 		
 		return shards;
@@ -109,11 +109,11 @@ public partial class DestructibleUtils : Node
 
 public class ShardSettings
 {
-    public Node3D      Obj                   { get; set; }
+	public Node3D      Obj                   { get; set; }
 	public PackedScene ShardScene            { get; set; }
 	public uint        CollisionLayers       { get; set; }
-    public DampMode    LinearDampMode        { get; set; }
-    public DampMode    AngularDampMode       { get; set; }
+	public DampMode    LinearDampMode        { get; set; }
+	public DampMode    AngularDampMode       { get; set; }
 	public uint        CollisionMasks        { get; set; }
 	public float       ExplosionPower        { get; set; }
 	public Vector3     ExplosionDirection    { get; set; }
@@ -123,9 +123,9 @@ public class ShardSettings
 	public bool        ParticleFade          { get; set; }
 	public bool        SaveToScene           { get; set; }
 	public float       LinearDampening       { get; set; }
-    public float       AngularDampening      { get; set; }
-    public string      SaveDirectory         { get; set; } = "res://";
-    public bool        CleanCollisionMesh    { get; set; } = true;
-    public bool        SimplifyCollisionMesh { get; set; } = false;
-    public Vector3     Scale                 { get; set; } = new Vector3();
+	public float       AngularDampening      { get; set; }
+	public string      SaveDirectory         { get; set; } = "res://";
+	public bool        CleanCollisionMesh    { get; set; } = true;
+	public bool        SimplifyCollisionMesh { get; set; } = false;
+	public Vector3     Scale                 { get; set; } = new Vector3();
 }
