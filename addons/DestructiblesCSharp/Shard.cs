@@ -1,5 +1,4 @@
-using Godot;
-
+namespace Destructibles;
 
 [Tool]
 public partial class Shard : RigidBody3D
@@ -15,9 +14,7 @@ public partial class Shard : RigidBody3D
 	{
 		// Checks if inside a game or the editor, if in a game runs initialize.
 		if (!Engine.IsEditorHint())
-		{ 
 			Initialize();
-		}
 	}
 
 
@@ -29,18 +26,15 @@ public partial class Shard : RigidBody3D
 
 		// If no direction for explosion is given set a random one.
 		if (ExplosionDirection == Vector3.Zero)
-		{
 			ExplosionDirection = RandomDirection();
-		}
 
 		// Gets the mesh instance and material for later use
-		MeshInstance3D  meshInstance = GetNode<MeshInstance3D>("MeshInstance");
-		Material materialSurface = meshInstance.Mesh.SurfaceGetMaterial(0);
+		var meshInstance = GetNode<MeshInstance3D>("MeshInstance");
+		var materialSurface = meshInstance.Mesh.SurfaceGetMaterial(0);
 		// Duplicates material, so tweens don't affect original object / other instances of it.
-		StandardMaterial3D material = materialSurface.Duplicate() as StandardMaterial3D;
 
 		// Returns if no material is found
-		if (material == null)
+		if (materialSurface.Duplicate() is not StandardMaterial3D material)
 		{
 			GD.PrintErr("No material found, returning...");
 			return;
@@ -53,7 +47,7 @@ public partial class Shard : RigidBody3D
 		material.Transparency = ParticleFade ? BaseMaterial3D.TransparencyEnum.AlphaHash : BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
 
 
-		Tween tween = CreateTween();
+		var tween = CreateTween();
 		// Applies explosion force (if it has any) to the shard.
 		ApplyImpulse(ExplosionDirection * ExplosionPower, -Position.Normalized());
 
@@ -81,9 +75,8 @@ public partial class Shard : RigidBody3D
 
 	
 	// Simple function to return a random direction
-	static Vector3 RandomDirection()
-	{
-		return (new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) - Vector3.One / 2.0f).Normalized() * 2.0f;
-	}
+	static Vector3 RandomDirection() =>
+		(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) - Vector3.One / 2.0f)
+			.Normalized() * 2.0f;
 
 }

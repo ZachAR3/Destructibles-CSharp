@@ -1,7 +1,10 @@
-using Godot;
-using System.Linq;
-using System.Runtime.InteropServices;
+global using Godot;
+global using System.Linq;
+global using System.Threading.Tasks;
 
+namespace Destructibles;
+
+using System.Runtime.InteropServices;
 
 [Tool]
 public partial class Destructible : Node
@@ -79,12 +82,10 @@ public partial class Destructible : Node
 	private Node3D _shards;
 	private Node3D _fragmentedInstance;
 
-
 	public override void _Ready()
 	{
 		_shardContainer = GetNodeOrNull("../../");
 		_scale = GetParent<Node3D>().Scale;
-
 
 		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		// If preloading shards is enabled instances the correct shards for either dynamic generated or pre-generated shards.
@@ -124,12 +125,31 @@ public partial class Destructible : Node
 					return;
 				}
 			}
-			DestructibleUtils destructionUtils = new DestructibleUtils();
-			_shards = await destructionUtils.CreateShards(_fragmentedInstance,
-				_shard, _collisionLayers, _layerMasks, explosionPower, explosionDirection, _shardMass, _fadeDelay,
-				_shrinkDelay, _particleFade, _saveToScene, _linearDampening, _linearDampMode,
-				_angularDampening, _angularDampMode, _savePath, _cleanCollisionMesh,
-				_simplifyCollisionMesh, _scale);
+
+			var destructionUtils = new DestructibleUtils();
+
+			_shards = await destructionUtils.CreateShards(new ShardSettings
+			{
+				Obj = _fragmentedInstance,
+				ShardScene = _shard, 
+				CollisionLayers = _collisionLayers, 
+				CollisionMasks = _layerMasks, 
+				ExplosionPower = explosionPower, 
+				ExplosionDirection = explosionDirection, 
+				ShardMass = _shardMass, 
+				FadeDelay = _fadeDelay,
+				ShrinkDelay = _shrinkDelay, 
+				ParticleFade = _particleFade, 
+				SaveToScene = _saveToScene, 
+				LinearDampening = _linearDampening, 
+				LinearDampMode = _linearDampMode,
+				AngularDampening = _angularDampening, 
+				AngularDampMode = _angularDampMode, 
+				SaveDirectory = _savePath, 
+				CleanCollisionMesh = _cleanCollisionMesh,
+				SimplifyCollisionMesh = _simplifyCollisionMesh, 
+				Scale = _scale
+			});
 
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
 			if (_saveToScene)
@@ -148,7 +168,7 @@ public partial class Destructible : Node
 			// Sets the variables on each shard that would otherwise be set when generating the shards dynamically.
 			foreach (Node shardNode in _shards.GetChildren())
 			{
-				Shard shard = shardNode as Shard;
+				var shard = shardNode as Shard;
 
 				shard.CollisionLayer = _collisionLayers;
 				shard.CollisionMask = _layerMasks;
@@ -164,6 +184,7 @@ public partial class Destructible : Node
 				shard.AngularDampMode = _angularDampMode;
 			}
 		}
+
 		_shards.TopLevel = true;
 		_shardContainer.AddChild(_shards);
 		_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
@@ -178,10 +199,10 @@ public partial class Destructible : Node
 	private void SetFragmented(PackedScene to)
 	{
 		_fragmented = to;
+
 		if (IsInsideTree())
-		{
 			UpdateConfigurationWarnings();
-		}
+
 		_Ready();
 	}
 
@@ -190,10 +211,10 @@ public partial class Destructible : Node
 	private void SetShard(PackedScene to)
 	{
 		_shard = to;
+
 		if (IsInsideTree())
-		{
 			UpdateConfigurationWarnings();
-		}
+
 		_Ready();
 	}
 
@@ -202,10 +223,10 @@ public partial class Destructible : Node
 	private void SetShardContainer(Node to)
 	{
 		_shardContainer = to;
+
 		if (IsInsideTree())
-		{
 			UpdateConfigurationWarnings();
-		}
+
 		_Ready();
 	}
 
@@ -213,41 +234,32 @@ public partial class Destructible : Node
 	// Run when an above function issues a warning, passes this warning on to the user.
 	public override string[] _GetConfigurationWarnings()
 	{
-		string[] warnings = {};
+		var warnings = new string[] { };
 
 		if (_fragmented == null)
-		{
 			warnings.Append("No fragmented version set");
-		}
 
 		if (_shard == null)
-		{
 			warnings.Append("No shard template set");
-		}
 
 		if (_shardContainer is PhysicsBody3D || _hasParentOfType(_shardContainer))
-		{
-			warnings.Append(
-				"The shard container is a PhysicsBody or has a PhysicsBody as a parent. This will make the shards added to it behave in unexpected ways.");
-		}
+			warnings.Append
+				("The shard container is a PhysicsBody or has a PhysicsBody " +
+				"as a parent. This will make the shards added to it behave " +
+				"in unexpected ways.");
+
 		return base._GetConfigurationWarnings();
 	}
-
 
 	// Simple function to see if a parent of a given node is a curtain type.
 	static bool _hasParentOfType(Node node)
 	{
 		if (node.GetParent() == null)
-		{
 			return false;
-		}
 
 		if (node.GetParent() is PhysicsBody3D)
-		{
 			return true;
-		}
 
 		return _hasParentOfType(node.GetParent());
 	}
-
 }
