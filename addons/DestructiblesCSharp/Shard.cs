@@ -34,7 +34,7 @@ public partial class Shard : RigidBody3D
 		// Duplicates material, so tweens don't affect original object / other instances of it.
 
 		// Returns if no material is found
-		if (materialSurface.Duplicate() is not StandardMaterial3D material)
+		if (materialSurface.Duplicate(true) is not StandardMaterial3D material)
 		{
 			GD.PrintErr("No material found, returning...");
 			return;
