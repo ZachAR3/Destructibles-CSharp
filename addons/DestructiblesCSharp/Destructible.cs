@@ -4,8 +4,6 @@ global using System.Threading.Tasks;
 
 namespace Destructibles;
 
-using System.Runtime.InteropServices;
-
 [Tool]
 public partial class Destructible : Node
 {
@@ -164,12 +162,12 @@ public partial class Destructible : Node
 			{
 				_shards = _preGeneratedShards.Instantiate<Node3D>();
 			}
-
+		
 			// Sets the variables on each shard that would otherwise be set when generating the shards dynamically.
 			foreach (Node shardNode in _shards.GetChildren())
 			{
 				var shard = shardNode as Shard;
-
+		
 				shard.CollisionLayer = _collisionLayers;
 				shard.CollisionMask = _layerMasks;
 				shard.FadeDelay = _fadeDelay;
@@ -185,13 +183,17 @@ public partial class Destructible : Node
 			}
 		}
 
-		_shards.TopLevel = true;
-		_shardContainer.AddChild(_shards);
-		_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
-		_shards.GlobalPosition = GetParent<Node3D>().GlobalPosition;
+		// Called as deferred so it is run from the main thread for safety.
+		Callable.From(() =>
+		{
+			_shards.TopLevel = true;
+			_shardContainer.AddChild(_shards);
+			_shards.GlobalRotation = GetParent<Node3D>().GlobalRotation;
+			_shards.GlobalPosition = GetParent<Node3D>().GlobalPosition;
 
-		// Necessary to avoid orphan nodes
-		GetParent().QueueFree();
+			// Necessary to avoid orphan nodes
+			GetParent().QueueFree();
+		}).CallDeferred();
 	}
 
 

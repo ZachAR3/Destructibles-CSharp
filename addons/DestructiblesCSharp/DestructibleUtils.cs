@@ -35,73 +35,81 @@ public partial class DestructibleUtils : Node
 				var shardMeshTyped = mesh;
 				Shard newShard = settings.ShardScene.Instantiate<Shard>();
 
-				// Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
-				var meshInstance = new MeshInstance3D 
+				// Calls the scene functions deferred for thread safety
+				Callable.From(() =>
 				{
-					Mesh = shardMeshTyped.Mesh,
-					Scale = settings.Scale,
-					Name = "MeshInstance"
-				};
-				newShard.AddChild(meshInstance);
+					// Sets the shards mesh instance to be that of the objects and adds it as a child of the shard
+					var meshInstance = new MeshInstance3D
+					{
+						Mesh = shardMeshTyped.Mesh,
+						Scale = settings.Scale,
+						Name = "MeshInstance"
+					};
+					newShard.AddChild(meshInstance);
 
-				// Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
-				var collisionShape = new CollisionShape3D
-				{
-					Shape = meshInstance.Mesh.CreateConvexShape(
-						settings.CleanCollisionMesh, 
-						settings.SimplifyCollisionMesh),
-					Scale = settings.Scale,
-					Name = "CollisionShape"
-				};
-				newShard.AddChild(collisionShape);
+					// Sets the shards collision shape to be a generation of the mesh instance with the given variables and adds it as a child.
+					var collisionShape = new CollisionShape3D
+					{
+						Shape = meshInstance.Mesh.CreateConvexShape(
+							settings.CleanCollisionMesh,
+							settings.SimplifyCollisionMesh),
+						Scale = settings.Scale,
+						Name = "CollisionShape"
+					};
+					newShard.AddChild(collisionShape);
 
-				// Sets all of the shard properties
-				newShard.Position = shardMeshTyped.Position;
-				newShard.CollisionLayer = settings.CollisionLayers;
-				newShard.CollisionMask = settings.CollisionMasks;
-				newShard.FadeDelay = settings.FadeDelay;
-				newShard.ExplosionPower = settings.ExplosionPower;
-				newShard.ExplosionDirection = settings.ExplosionDirection;
-				newShard.Mass = settings.ShardMass;
-				newShard.ShrinkDelay = settings.ShrinkDelay;
-				newShard.ParticleFade = settings.ParticleFade;
-				newShard.LinearDamp = settings.LinearDampening;
-				newShard.LinearDampMode = settings.LinearDampMode;
-				newShard.AngularDamp = settings.AngularDampening;
-				newShard.AngularDampMode = settings.AngularDampMode;
+					// Sets all of the shard properties
+					newShard.Position = shardMeshTyped.Position;
+					newShard.CollisionLayer = settings.CollisionLayers;
+					newShard.CollisionMask = settings.CollisionMasks;
+					newShard.FadeDelay = settings.FadeDelay;
+					newShard.ExplosionPower = settings.ExplosionPower;
+					newShard.ExplosionDirection = settings.ExplosionDirection;
+					newShard.Mass = settings.ShardMass;
+					newShard.ShrinkDelay = settings.ShrinkDelay;
+					newShard.ParticleFade = settings.ParticleFade;
+					newShard.LinearDamp = settings.LinearDampening;
+					newShard.LinearDampMode = settings.LinearDampMode;
+					newShard.AngularDamp = settings.AngularDampening;
+					newShard.AngularDampMode = settings.AngularDampMode;
 
-				// Adds the shard to the shard list
-				shards.AddChild(newShard);
+					// Adds the shard to the shard list
+					shards.AddChild(newShard);
+				}).CallDeferred();
+
 			}
 
-			// Checks if this is to be saved to a scene (for pre-generation use) and if so, saves it to the given path.
-			if (settings.SaveToScene)
+			Callable.From(() =>
 			{
-				var savedShards = new PackedScene();
-				var saveDirectoryFolder = DirAccess.Open(settings.SaveDirectory);
-
-				foreach (Node shard in shards.GetChildren())
+				// Checks if this is to be saved to a scene (for pre-generation use) and if so, saves it to the given path.
+				if (settings.SaveToScene)
 				{
-					shard.Owner = shards;
-					foreach (Node shardChild in shard.GetChildren())
-						shardChild.Owner = shards;
+					var savedShards = new PackedScene();
+					var saveDirectoryFolder = DirAccess.Open(settings.SaveDirectory);
+
+					foreach (Node shard in shards.GetChildren())
+					{
+						shard.Owner = shards;
+						foreach (Node shardChild in shard.GetChildren())
+							shardChild.Owner = shards;
+					}
+
+					if (saveDirectoryFolder == null)
+					{
+						GD.PrintErr("Save directory error:", DirAccess.GetOpenError());
+						return;
+					}
+
+					savedShards.Pack(shards);
+					ResourceSaver.Save(savedShards, saveShardDir);
+					GD.PrintRich("[color=green]Generation completed.[/color]");
 				}
 
-				if (saveDirectoryFolder == null)
-				{
-					GD.PrintErr("Save directory error:", DirAccess.GetOpenError());
-					return;
-				}
-
-				savedShards.Pack(shards);
-				ResourceSaver.Save(savedShards, saveShardDir);
-				GD.PrintRich("[color=green]Generation completed.[/color]");
-			}
-
-			// Necessary to avoid orphan nodes
-			settings.Obj.QueueFree();
+				// Necessary to avoid orphan nodes
+				settings.Obj.QueueFree();
+			}).CallDeferred();
 		});
-		
+
 		return shards;
 	}
 
