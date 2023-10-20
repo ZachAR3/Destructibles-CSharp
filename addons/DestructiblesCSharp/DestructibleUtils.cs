@@ -59,7 +59,7 @@ public partial class DestructibleUtils : Node
 					newShard.AddChild(collisionShape);
 
 					// Sets all of the shard properties
-					newShard.Position = shardMeshTyped.Position;
+					newShard.Position = shardMeshTyped.Position * settings.Scale;
 					newShard.CollisionLayer = settings.CollisionLayers;
 					newShard.CollisionMask = settings.CollisionMasks;
 					newShard.FadeDelay = settings.FadeDelay;

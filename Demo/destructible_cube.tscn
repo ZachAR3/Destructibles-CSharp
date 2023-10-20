@@ -8,11 +8,12 @@
 size = Vector3(2, 2, 2)
 
 [node name="DestructibleCube" type="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.638229, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.638229, 0)
 material_override = ExtResource("1_pn1no")
 mesh = SubResource("BoxMesh_h5eed")
 
-[node name="Destructible" type="Node" parent="."]
+[node name="Destructible" type="Node" parent="." node_paths=PackedStringArray("_shardContainer")]
 script = ExtResource("2_qgx7i")
 _fragmented = ExtResource("3_361ly")
+_shardContainer = NodePath("")
 _savePath = "res://Demo"

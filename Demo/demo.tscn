@@ -27,7 +27,7 @@ script = ExtResource("1_xvv5r")
 [node name="Shards" type="Node3D" parent="."]
 
 [node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.759737, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.37198, 0)
 mesh = SubResource("BoxMesh_yig7p")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
@@ -60,6 +60,6 @@ grow_vertical = 0
 text = "Destroy"
 
 [node name="DestructibleCube" parent="." instance=ExtResource("2_ytie2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.23467, 0.520294, 0)
+transform = Transform3D(1.79387, -0.884327, 0, 0.884327, 1.79387, 0, 0, 0, 2, -2.23467, 0.520294, 0)
 
 [connection signal="pressed" from="DestroyButton" to="." method="_on_destroy_button_pressed"]
