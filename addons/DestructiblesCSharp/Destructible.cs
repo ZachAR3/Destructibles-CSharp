@@ -8,7 +8,6 @@ namespace Destructibles;
 public partial class Destructible : Node
 {
 	[Export()] private PackedScene _fragmented;
-	[Export()] private Material _fragmentedMaterial;
 
 	private PackedScene Fragmented
 	{
@@ -58,16 +57,14 @@ public partial class Destructible : Node
 		}
 	}
 
-	[Export()] private bool _preloadShards = true;
-
-	[Export(PropertyHint.Dir)] private string _savePath = "res://";
-
-	[Export()] private bool _cleanCollisionMesh = true;
-
-	[Export()] private bool _simplifyCollisionMesh = false;
-
+	[Export()] private Material _fragmentedMaterial;
 	[Export()] private PackedScene _preGeneratedShards;
-
+	[Export()] private bool _preloadShards = true;
+	
+	[Export(PropertyHint.Dir)] private string _savePath = "res://";
+	[Export()] private bool _cleanCollisionMesh = true;
+	[Export()] private bool _simplifyCollisionMesh = false;
+	
 	[Export()] private float _shardMass = 1f;
 
 	[Export()] private float _linearDampening = 0f;
