@@ -3,8 +3,8 @@
 Used in conjuction with shard meshes to easily create destructable objects.
 
 *Requires Godot Mono.*
+[Demo.webm](https://github.com/ZachAR3/Destructibles-CSharp/assets/32562377/2e503638-0dc3-4f6e-bc83-3cada810088c)
 
-https://github.com/ZachAR3/Destructibles-CSharp/blob/main/Demo.webm
 
 ## Usage
 
