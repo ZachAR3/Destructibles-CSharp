@@ -1,8 +1,10 @@
-# Godot Destructibles C# ![Godot v4.x](https://img.shields.io/badge/Godot-v4.1-%23478cbf?logo=godot-engine&logoColor=white) ![License](https://img.shields.io/github/license/Jummit/godot-destruction-plugin)
+# Godot Destructibles C# ![Godot v4.x](https://img.shields.io/badge/Godot-v4.x-%23478cbf?logo=godot-engine&logoColor=white) ![License](https://img.shields.io/github/license/ZachAR3/Destructibles-CSharp)
 
 Used in conjuction with shard meshes to easily create destructable objects.
 
 *Requires Godot Mono.*
+
+https://github.com/ZachAR3/Destructibles-CSharp/blob/main/Demo.webm
 
 ## Usage
 
