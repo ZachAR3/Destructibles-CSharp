@@ -8,6 +8,7 @@ namespace Destructibles;
 public partial class Destructible : Node
 {
 	[Export()] private PackedScene _fragmented;
+	[Export()] private Material _fragmentedMaterial;
 
 	private PackedScene Fragmented
 	{
@@ -59,7 +60,7 @@ public partial class Destructible : Node
 
 	[Export()] private bool _preloadShards = true;
 
-	[Export(PropertyHint.Dir)] private string _savePath = "res://shard";
+	[Export(PropertyHint.Dir)] private string _savePath = "res://";
 
 	[Export()] private bool _cleanCollisionMesh = true;
 
@@ -104,7 +105,7 @@ public partial class Destructible : Node
 
 
 	// Destroy function to be called when destroying an object (Also used to handle pre-generation of shards)
-	private async void Destroy(float explosionPower = 4f, Vector3 explosionDirection = default(Vector3))
+	private async void Destroy(float explosionPower = 4f, Vector3 explosionDirection = default)
 	{
 		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		// Checks if a pre-generated shard scene is given, if not generates the shards with the given options.
@@ -146,7 +147,8 @@ public partial class Destructible : Node
 				SaveDirectory = _savePath, 
 				CleanCollisionMesh = _cleanCollisionMesh,
 				SimplifyCollisionMesh = _simplifyCollisionMesh, 
-				Scale = _scale
+				Scale = _scale,
+				ShardMaterial = _fragmentedMaterial
 			});
 
 			destructionUtils.QueueFree(); // Necessary to avoid orphan nodes
@@ -180,6 +182,7 @@ public partial class Destructible : Node
 				shard.LinearDampMode = _linearDampMode;
 				shard.AngularDamp = _angularDampening;
 				shard.AngularDampMode = _angularDampMode;
+				shard.ShardMaterial = _fragmentedMaterial;
 			}
 		}
 

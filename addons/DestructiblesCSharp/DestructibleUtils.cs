@@ -43,7 +43,7 @@ public partial class DestructibleUtils : Node
 					{
 						Mesh = shardMeshTyped.Mesh,
 						Scale = settings.Scale,
-						Name = "MeshInstance"
+						Name = "MeshInstance",
 					};
 					newShard.AddChild(meshInstance);
 
@@ -72,6 +72,7 @@ public partial class DestructibleUtils : Node
 					newShard.LinearDampMode = settings.LinearDampMode;
 					newShard.AngularDamp = settings.AngularDampening;
 					newShard.AngularDampMode = settings.AngularDampMode;
+					newShard.ShardMaterial = settings.ShardMaterial;
 
 					// Adds the shard to the shard list
 					shards.AddChild(newShard);
@@ -134,6 +135,7 @@ public class ShardSettings
 	public float       AngularDampening      { get; set; }
 	public string      SaveDirectory         { get; set; } = "res://";
 	public bool        CleanCollisionMesh    { get; set; } = true;
-	public bool        SimplifyCollisionMesh { get; set; } = false;
-	public Vector3     Scale                 { get; set; } = new Vector3();
+	public bool        SimplifyCollisionMesh { get; set; }
+	public Vector3     Scale                 { get; set; }
+	public Material    ShardMaterial         { get; set; }
 }

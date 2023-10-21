@@ -9,6 +9,7 @@ public partial class Shard : RigidBody3D
 	public float ExplosionPower;
 	public bool ParticleFade = true;
 	public Vector3 ExplosionDirection = Vector3.Zero;
+	public Material ShardMaterial;
 
 	public override void _Ready()
 	{
@@ -30,7 +31,7 @@ public partial class Shard : RigidBody3D
 
 		// Gets the mesh instance and material for later use
 		var meshInstance = GetNode<MeshInstance3D>("MeshInstance");
-		var materialSurface = meshInstance.Mesh.SurfaceGetMaterial(0);
+		var materialSurface = ShardMaterial ?? meshInstance.Mesh.SurfaceGetMaterial(0);
 		// Duplicates material, so tweens don't affect original object / other instances of it.
 
 		// Returns if no material is found

@@ -15,5 +15,5 @@ mesh = SubResource("BoxMesh_h5eed")
 [node name="Destructible" type="Node" parent="." node_paths=PackedStringArray("_shardContainer")]
 script = ExtResource("2_qgx7i")
 _fragmented = ExtResource("3_361ly")
-_shardContainer = NodePath("")
+_shardContainer = NodePath("../..")
 _savePath = "res://Demo"
