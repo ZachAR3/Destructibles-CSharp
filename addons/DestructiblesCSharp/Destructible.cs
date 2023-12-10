@@ -102,7 +102,7 @@ public partial class Destructible : Node
 
 
 	// Destroy function to be called when destroying an object (Also used to handle pre-generation of shards)
-	private async void Destroy(float explosionPower = 4f, Vector3 explosionDirection = default)
+	public async void Destroy(float explosionPower = 4f, Vector3 explosionDirection = default)
 	{
 		_shard = (PackedScene)GD.Load("res://addons/DestructiblesCSharp/shard.tscn");
 		// Checks if a pre-generated shard scene is given, if not generates the shards with the given options.
