@@ -24,7 +24,7 @@ public partial class DestructibleUtils : Node
 		// Used to run the bulk of the generation on a separate thread to reduce stutter.
 		await Task.Run(() =>
 		{
-			// Runs a loop for all of the children of the scene used to create the shards (should only be MeshInstances)
+			// Runs a loop for all the children of the scene used to create the shards (should only be MeshInstances)
 			foreach (var shardMesh in settings.Obj.GetChildren())
 			{
 				// Returns if no MeshInstance is found
@@ -58,7 +58,7 @@ public partial class DestructibleUtils : Node
 					};
 					newShard.AddChild(collisionShape);
 
-					// Sets all of the shard properties
+					// Sets all the shard properties
 					newShard.Position = shardMeshTyped.Position * settings.Scale;
 					newShard.CollisionLayer = settings.CollisionLayers;
 					newShard.CollisionMask = settings.CollisionMasks;
@@ -118,24 +118,24 @@ public partial class DestructibleUtils : Node
 
 public class ShardSettings
 {
-	public Node3D      Obj                   { get; set; }
-	public PackedScene ShardScene            { get; set; }
-	public uint        CollisionLayers       { get; set; }
-	public DampMode    LinearDampMode        { get; set; }
-	public DampMode    AngularDampMode       { get; set; }
-	public uint        CollisionMasks        { get; set; }
-	public float       ExplosionPower        { get; set; }
-	public Vector3     ExplosionDirection    { get; set; }
-	public float       ShardMass             { get; set; }
-	public float       FadeDelay             { get; set; }
-	public float       ShrinkDelay           { get; set; }
-	public bool        ParticleFade          { get; set; }
-	public bool        SaveToScene           { get; set; }
-	public float       LinearDampening       { get; set; }
-	public float       AngularDampening      { get; set; }
-	public string      SaveDirectory         { get; set; } = "res://";
-	public bool        CleanCollisionMesh    { get; set; } = true;
-	public bool        SimplifyCollisionMesh { get; set; }
-	public Vector3     Scale                 { get; set; }
-	public Material    ShardMaterial         { get; set; }
+	public Node3D      Obj                   { get; init; }
+	public PackedScene ShardScene            { get; init; }
+	public uint        CollisionLayers       { get; init; }
+	public DampMode    LinearDampMode        { get; init; }
+	public DampMode    AngularDampMode       { get; init; }
+	public uint        CollisionMasks        { get; init; }
+	public float       ExplosionPower        { get; init; }
+	public Vector3     ExplosionDirection    { get; init; }
+	public float       ShardMass             { get; init; }
+	public float       FadeDelay             { get; init; }
+	public float       ShrinkDelay           { get; init; }
+	public bool        ParticleFade          { get; init; }
+	public bool        SaveToScene           { get; init; }
+	public float       LinearDampening       { get; init; }
+	public float       AngularDampening      { get; init; }
+	public string      SaveDirectory         { get; init; } = "res://";
+	public bool        CleanCollisionMesh    { get; init; } = true;
+	public bool        SimplifyCollisionMesh { get; init; }
+	public Vector3     Scale                 { get; init; }
+	public Material    ShardMaterial         { get; init; }
 }

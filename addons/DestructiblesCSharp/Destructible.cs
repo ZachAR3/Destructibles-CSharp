@@ -7,6 +7,7 @@ namespace Destructibles;
 [Tool]
 public partial class Destructible : Node
 {
+	// Would love to implement descriptions but it currently isn't possible TODO #11
 	[Export()] private PackedScene _fragmented;
 
 	private PackedScene Fragmented
