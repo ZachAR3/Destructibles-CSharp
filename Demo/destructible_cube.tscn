@@ -1,18 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://lvjbkkflsjsv"]
+[gd_scene format=3 uid="uid://lvjbkkflsjsv"]
 
 [ext_resource type="Material" uid="uid://d0q30ktnicuth" path="res://Demo/white.tres" id="1_pn1no"]
-[ext_resource type="Script" path="res://addons/DestructiblesCSharp/Destructible.cs" id="2_qgx7i"]
+[ext_resource type="Script" uid="uid://nshefkdqwimg" path="res://addons/DestructiblesCSharp/Destructible.cs" id="2_qgx7i"]
 [ext_resource type="PackedScene" uid="uid://bypyd46uq2tha" path="res://Demo/fractured_cube.glb" id="3_361ly"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_h5eed"]
 size = Vector3(2, 2, 2)
 
-[node name="DestructibleCube" type="MeshInstance3D"]
+[node name="DestructibleCube" type="MeshInstance3D" unique_id=1784156792]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.638229, 0)
 material_override = ExtResource("1_pn1no")
 mesh = SubResource("BoxMesh_h5eed")
 
-[node name="Destructible" type="Node" parent="." node_paths=PackedStringArray("_shardContainer")]
+[node name="Destructible" type="Node" parent="." unique_id=1614071884 node_paths=PackedStringArray("_shardContainer")]
 script = ExtResource("2_qgx7i")
 _fragmented = ExtResource("3_361ly")
 _shardContainer = NodePath("../..")

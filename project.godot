@@ -8,13 +8,17 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="DestructiblesCSharp"
 config/description="A simple Godot 4 plugin to handle the creation and use of destructible objects."
 config/tags=PackedStringArray("addon")
 run/main_scene="res://Demo/demo.tscn"
-config/features=PackedStringArray("4.3", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.png"
 
 [dotnet]
