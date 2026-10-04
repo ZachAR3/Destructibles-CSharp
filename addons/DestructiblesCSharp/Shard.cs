@@ -1,83 +1,58 @@
+using Godot;
+
 namespace Destructibles;
 
 [Tool]
 public partial class Shard : RigidBody3D
 {
-	// Instances variables to be set by the other destruction scripts
 	public float ShrinkDelay = -1;
 	public float FadeDelay = -1;
 	public float ExplosionPower;
 	public bool ParticleFade = true;
-	public Vector3 ExplosionDirection = Vector3.Zero;
+	public Vector3 ExplosionDirection;
 	public Material ShardMaterial;
+	internal bool Prepared;
+	private bool _initialized;
+	private bool _impulsePending;
+	private MeshInstance3D _mesh;
+	private ShardVisual _visual;
 
 	public override void _Ready()
 	{
-		// Checks if inside a game or the editor, if in a game runs initialize.
-		if (!Engine.IsEditorHint())
-			Initialize();
+		SetProcess(false);
+		if (!Engine.IsEditorHint() && !Prepared) Initialize();
 	}
 
-
-	public async void Initialize()
+	public void Initialize()
 	{
-		// Awaits two physics frame due to this bug https://github.com/godotengine/godot/issues/75934
-		await ToSignal(GetTree(), "physics_frame");
-		await ToSignal(GetTree(), "physics_frame");
-
-		// If no direction for explosion is given set a random one.
-		if (ExplosionDirection == Vector3.Zero)
-			ExplosionDirection = RandomDirection();
-
-		// Gets the mesh instance and material for later use
-		var meshInstance = GetNode<MeshInstance3D>("MeshInstance");
-		var materialSurface = ShardMaterial ?? meshInstance.Mesh.SurfaceGetMaterial(0);
-		// Duplicates material, so tweens don't affect original object / other instances of it.
-
-		// Returns if no material is found
-		if (materialSurface.Duplicate(true) is not StandardMaterial3D material)
+		if (_initialized || !IsInsideTree()) return;
+		_mesh = GetNodeOrNull<MeshInstance3D>("MeshInstance");
+		if (_mesh?.Mesh == null)
 		{
-			GD.PrintErr("No material found, returning...");
+			GD.PushWarning("Shard needs a MeshInstance child with a mesh.");
 			return;
 		}
-
-		// Sets mesh material to be new material
-		meshInstance.MaterialOverride = material;
-
-		// Checks if ParticleFade is true, and if so uses particle fade material. Otherwise, uses the standard fade.
-		material.Transparency = ParticleFade ? BaseMaterial3D.TransparencyEnum.AlphaHash : BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
-
-
-		var tween = CreateTween();
-		// Applies explosion force (if it has any) to the shard.
-		ApplyImpulse(ExplosionDirection * ExplosionPower, -Position.Normalized());
-
-		// Run fade tween if fade is enabled (checked through fade delay being greater than 0)
-		if (FadeDelay > 0)
-		{
-			tween.TweenProperty(material, "albedo_color", new Color(1, 1, 1, 0), 2).
-				SetDelay(FadeDelay).
-				SetTrans(Tween.TransitionType.Expo).
-				SetEase(Tween.EaseType.Out);
-		}
-			
-
-		// Run shrink tween if fade is enabled (checked through fade delay being greater than 0)
-		if (ShrinkDelay > 0)
-		{
-			tween.Parallel().TweenProperty(meshInstance, "scale", Vector3.Zero, 2).SetDelay(ShrinkDelay);
-		}
-		// Wait for the shard to finish its tween (disappear)
-		await ToSignal(tween, "finished");
-		
-		// Removes shard parent along with all other shards
-		GetParent().QueueFree();
+		_initialized = true;
+		if (ShardMaterial != null)
+			for (var i = 0; i < _mesh.Mesh.GetSurfaceCount(); i++) _mesh.SetSurfaceOverrideMaterial(i, ShardMaterial);
+		if (ExplosionDirection.IsZeroApprox()) ExplosionDirection = DestructibleUtils.RandomDirection();
+		_visual = new ShardVisual(_mesh, FadeDelay, ShrinkDelay, ParticleFade);
+		_impulsePending = true;
+		SetProcess(_visual.Animated);
 	}
 
-	
-	// Simple function to return a random direction
-	static Vector3 RandomDirection() =>
-		(new Vector3(GD.Randf(), GD.Randf(), GD.Randf()) - Vector3.One / 2.0f)
-			.Normalized() * 2.0f;
+	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+	{
+		if (!_impulsePending) return;
+		// Apply after entering the physics space, without per-shard awaits.
+		state.ApplyCentralImpulse(ExplosionDirection.Normalized() * ExplosionPower);
+		_impulsePending = false;
+	}
 
+	public override void _Process(double delta)
+	{
+		_visual.Update(delta);
+		if (_visual.Scale < 1) _mesh.Scale = Vector3.One * Mathf.Max(0.0001f, _visual.Scale);
+		if (_visual.Finished) QueueFree();
+	}
 }

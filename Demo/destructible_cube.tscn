@@ -12,8 +12,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.638229, 0)
 material_override = ExtResource("1_pn1no")
 mesh = SubResource("BoxMesh_h5eed")
 
-[node name="Destructible" type="Node" parent="." unique_id=1614071884 node_paths=PackedStringArray("_shardContainer")]
+[node name="Destructible" type="Node" parent="." unique_id=1614071884]
 script = ExtResource("2_qgx7i")
 _fragmented = ExtResource("3_361ly")
-_shardContainer = NodePath("../..")
 _savePath = "res://Demo"

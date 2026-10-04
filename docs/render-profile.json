@@ -1,0 +1,107 @@
+{
+  "engine": "Godot .NET 4.6 stable",
+  "renderer": "Forward+ / Vulkan",
+  "gpu": "NVIDIA GeForce RTX 3070 Ti",
+  "driver": "615.71.09",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "shards": 1024,
+  "warmup_frames_per_case": 90,
+  "samples_per_case": 180,
+  "physics": "frozen bodies, collision disabled; render cost isolated",
+  "command": "godot-mono --path . --rendering-method forward_plus --script res://Tests/render_profile.gd -- --shards=1024 --dense",
+  "cases": [
+    {
+      "case": "opaque_shadows",
+      "draw_calls": 1025,
+      "frame_interval_ms": {
+        "median": 12.638,
+        "p95": 14.837
+      },
+      "gpu_ms": {
+        "median": 11.4840002059937,
+        "p95": 13.8800001144409
+      },
+      "render_cpu_ms": {
+        "median": 1.60299994468689,
+        "p95": 2.09400006866455
+      },
+      "shadow_draw_calls": 3859,
+      "visible_triangles": 17039372
+    },
+    {
+      "case": "opaque_no_shadows",
+      "draw_calls": 1025,
+      "frame_interval_ms": {
+        "median": 4.919,
+        "p95": 5.977
+      },
+      "gpu_ms": {
+        "median": 3.70799994468689,
+        "p95": 4.78900003433228
+      },
+      "render_cpu_ms": {
+        "median": 0.641999995231628,
+        "p95": 0.974000017166138
+      },
+      "shadow_draw_calls": 4,
+      "visible_triangles": 17039372
+    },
+    {
+      "case": "hash_fade_shadows",
+      "draw_calls": 1025,
+      "frame_interval_ms": {
+        "median": 12.427,
+        "p95": 14.06
+      },
+      "gpu_ms": {
+        "median": 11.4980001449585,
+        "p95": 12.8409996032715
+      },
+      "render_cpu_ms": {
+        "median": 2.12200011253357,
+        "p95": 2.9119999294281
+      },
+      "shadow_draw_calls": 3859,
+      "visible_triangles": 17039372
+    },
+    {
+      "case": "alpha_fade_shadows",
+      "draw_calls": 1025,
+      "frame_interval_ms": {
+        "median": 3.952,
+        "p95": 5.172
+      },
+      "gpu_ms": {
+        "median": 2.87700009346008,
+        "p95": 3.98900008201599
+      },
+      "render_cpu_ms": {
+        "median": 0.892999974250793,
+        "p95": 1.19699994277954
+      },
+      "shadow_draw_calls": 4,
+      "visible_triangles": 17039372
+    },
+    {
+      "case": "low_detail_no_shadows",
+      "draw_calls": 1025,
+      "frame_interval_ms": {
+        "median": 1.627,
+        "p95": 2.307
+      },
+      "gpu_ms": {
+        "median": 0.370999991893768,
+        "p95": 0.38400000333786
+      },
+      "render_cpu_ms": {
+        "median": 0.512000008106232,
+        "p95": 0.979999981880188
+      },
+      "shadow_draw_calls": 4,
+      "visible_triangles": 294924
+    }
+  ]
+}

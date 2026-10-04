@@ -17,3 +17,6 @@ mono_crash.*.json
 
 # Jet brains ignores
 .idea/
+
+# Godot C# project migration backups
+*.csproj.old*

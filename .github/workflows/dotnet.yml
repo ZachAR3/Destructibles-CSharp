@@ -1,7 +1,4 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET and Godot
 
 on:
   push:
@@ -11,18 +8,23 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    timeout-minutes: 10
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Install Godot .NET 4.7.2
+        run: |
+          curl --fail --location --retry 3 -o "$RUNNER_TEMP/godot.zip" https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_mono_linux_x86_64.zip
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          echo "$RUNNER_TEMP/godot/Godot_v4.7.2-stable_mono_linux_x86_64" >> "$GITHUB_PATH"
+      - name: Build
+        run: dotnet build --nologo
+      - name: Import assets
+        run: Godot_v4.7.2-stable_mono_linux.x86_64 --headless --path . --editor --import --quit
+      - name: Test destruction in Godot
+        run: Godot_v4.7.2-stable_mono_linux.x86_64 --headless --path . res://Tests/tests.tscn
+      - name: Build export configuration
+        run: dotnet build -c ExportRelease --nologo

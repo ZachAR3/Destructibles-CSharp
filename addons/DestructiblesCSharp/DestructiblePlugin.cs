@@ -1,3 +1,5 @@
+using Godot;
+
 namespace Destructibles;
 
 #if TOOLS

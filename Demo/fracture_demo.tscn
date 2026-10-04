@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Demo/fracture_demo.gd" id="1"]
+
+[sub_resource type="BoxMesh" id="FloorMesh"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxShape3D" id="FloorShape"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+
+[node name="FractureDemo" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Objects" type="Node3D" parent="."]
+
+[node name="Debris" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.25, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("FloorMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("FloorShape")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(5, 4, 7)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-45, -30, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Status" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 740.0
+offset_bottom = 50.0
+text = "Runtime mesh fracture"
+
+[node name="Controls" type="HBoxContainer" parent="UI"]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 580.0
+offset_bottom = 100.0
+theme_override_constants/separation = 12
+
+[node name="Burst" type="Button" parent="UI/Controls"]
+text = "Burst"
+
+[node name="Cut" type="Button" parent="UI/Controls"]
+text = "Cut"
+
+[node name="Reset" type="Button" parent="UI/Controls"]
+text = "Reset"
+
+[node name="Hollow" type="CheckButton" parent="UI/Controls"]
+text = "Hollow mesh"
+
+[node name="Options" type="HBoxContainer" parent="UI"]
+offset_left = 20.0
+offset_top = 112.0
+offset_right = 1030.0
+offset_bottom = 150.0
+theme_override_constants/separation = 8
+
+[node name="Pattern" type="OptionButton" parent="UI/Options"]
+tooltip_text = "Fracture pattern; exact sharp cuts always use the blade plane."
+
+[node name="Noise" type="OptionButton" parent="UI/Options"]
+tooltip_text = "Noise varies burst planes and optional interior roughness."
+
+[node name="PiecesLabel" type="Label" parent="UI/Options"]
+text = "Shards"
+
+[node name="Pieces" type="SpinBox" parent="UI/Options"]
+min_value = 2.0
+max_value = 256.0
+value = 12.0
+
+[node name="SeedLabel" type="Label" parent="UI/Options"]
+text = "Seed"
+
+[node name="Seed" type="SpinBox" parent="UI/Options"]
+max_value = 100000.0
+value = 1.0
+
+[node name="RoughnessLabel" type="Label" parent="UI/Options"]
+text = "Roughness"
+
+[node name="Roughness" type="SpinBox" parent="UI/Options"]
+tooltip_text = "Interior geometry roughness, as a fraction of piece size. Costs extra geometry work."
+max_value = 0.25
+step = 0.01
+
+[connection signal="pressed" from="UI/Controls/Burst" to="." method="burst"]
+[connection signal="pressed" from="UI/Controls/Cut" to="." method="cut"]
+[connection signal="pressed" from="UI/Controls/Reset" to="." method="reset"]
+[connection signal="toggled" from="UI/Controls/Hollow" to="." method="change_shape"]
+[connection signal="item_selected" from="UI/Options/Pattern" to="." method="change_options"]
+[connection signal="item_selected" from="UI/Options/Noise" to="." method="change_options"]
+[connection signal="value_changed" from="UI/Options/Pieces" to="." method="change_options"]
+[connection signal="value_changed" from="UI/Options/Seed" to="." method="change_options"]
+[connection signal="value_changed" from="UI/Options/Roughness" to="." method="change_options"]

@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://addons/DestructiblesCSharp/Destructible.cs" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="Exterior"]
+albedo_color = Color(0.22, 0.52, 0.72, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh"]
+material = SubResource("Exterior")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="Interior"]
+albedo_color = Color(0.8, 0.7, 0.52, 1)
+roughness = 1.0
+
+[sub_resource type="BoxShape3D" id="Shape"]
+size = Vector3(2, 2, 2)
+
+[node name="Object" type="MeshInstance3D"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("Mesh")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("Shape")
+
+[node name="Destructible" type="Node" parent="."]
+script = ExtResource("1")
+FracturePieces = 12
+ShardsPerFrame = 4
+InteriorMaterial = SubResource("Interior")
